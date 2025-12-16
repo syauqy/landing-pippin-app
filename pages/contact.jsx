@@ -128,7 +128,7 @@ export default function ContactPage() {
           </form>
         )}
       </div>
-      <section className="py-20 bg-gradient-to-b from-white to-batik">
+      <section className="py-20 bg-linear-to-b from-white to-batik">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold mb-6">
             Ready to Discover Your True Self?

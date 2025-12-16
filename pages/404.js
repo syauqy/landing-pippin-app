@@ -1,30 +1,44 @@
 import Link from "next/link";
 import { Navbar } from "@/components/layouts/navbar";
 import { Footer } from "@/components/layouts/footer";
+import { Plus_Jakarta_Sans } from "next/font/google";
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  weight: "800",
+  subsets: ["latin"],
+});
 
 export default function NotFoundPage() {
   return (
-    <div className="h-[100svh] flex flex-col bg-[#F0F5F1] text-[#3A4D39] relative">
-      <Navbar bg={"bg-[#F0F5F1]"} />
-      <div className="flex flex-col items-center justify-center flex-grow py-12 px-5">
-        <div className="bg-base-100 border border-[#3A4D39] rounded-2xl shadow-md p-8 flex flex-col items-center">
-          <h1 className="text-5xl font-bold text-batik-black mb-2">404</h1>
-          <h2 className="text-2xl font-semibold text-batik-black mb-4">
-            Lost in the Calm
+    <div
+      className={`min-h-screen flex flex-col bg-gradient-to-b from-[#F8F7F4] to-[#E9E6DF] text-[#2D2A26] ${plusJakartaSans.className}`}
+    >
+      <Navbar />
+      <div className="flex flex-col items-center justify-center flex-grow py-16 px-5">
+        <div className="bg-white/80 rounded-3xl shadow-lg p-10 flex flex-col items-center max-w-md w-full">
+          <img
+            src="/illustrations/pippin-onsen-300.png"
+            alt="Pippin mascot lost"
+            className="w-full mb-6 rounded-2xl drop-shadow object-contain"
+          />
+          <h1 className="text-6xl font-bold mb-2 tracking-tight">404</h1>
+          <h2 className="text-2xl font-semibold mb-4 text-[#6B665B]">
+            Oops! Page not found
           </h2>
-          <p className="text-base-content text-center mb-6">
-            Let&apos;s get you back to tracking your subscriptions and finding
-            your financial calm.
+          <p className="text-[#6B665B] text-center mb-8">
+            Looks like you wandered off the path.
+            <br />
+            Let’s get you back to a calmer mind.
           </p>
           <Link
             href="/"
-            className="btn border-batik-border text-batik-text rounded-2xl px-6 py-2 font-semibold"
+            className="bg-[#B6A16B] hover:bg-[#A08B5A] text-white rounded-xl px-6 py-2 font-semibold transition-colors duration-200 shadow"
           >
-            Go to Home
+            Back to Home
           </Link>
         </div>
       </div>
-      <Footer bg={"bg-[#F0F5F1]"} />
+      <Footer />
     </div>
   );
 }

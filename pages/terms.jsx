@@ -1,11 +1,65 @@
 import { useState, useEffect } from "react";
 import Markdown from "markdown-to-jsx";
 import { Navbar } from "@/components/layouts/navbar";
-import { Inter } from "next/font/google";
 import { Footer } from "@/components/layouts/footer";
 import { NextSeo } from "next-seo";
 
-const inter = Inter({ subsets: ["latin"] });
+const MARKDOWN_OVERRIDES = {
+  h1: {
+    component: "h1",
+    props: {
+      className: "text-2xl font-bold text-base-content mb-4",
+    },
+  },
+  h2: {
+    component: "h2",
+    props: {
+      className: "text-xl font-semibold text-base-content mt-6 mb-3",
+    },
+  },
+  h3: {
+    component: "h3",
+    props: {
+      className: "text-lg font-semibold text-base-content mt-4 mb-2",
+    },
+  },
+  h4: {
+    component: "h4",
+    props: {
+      className: "text-base font-semibold text-base-content mt-3 mb-2",
+    },
+  },
+  p: {
+    component: "p",
+    props: {
+      className: "text-base-content/80 mb-4 leading-relaxed",
+    },
+  },
+  ul: {
+    component: "ul",
+    props: {
+      className: "list-disc list-inside text-base-content/80 mb-4 space-y-2",
+    },
+  },
+  li: {
+    component: "li",
+    props: {
+      className: "text-base-content/80",
+    },
+  },
+  a: {
+    component: "a",
+    props: {
+      className: "text-primary hover:underline",
+    },
+  },
+  strong: {
+    component: "strong",
+    props: {
+      className: "font-semibold text-base-content",
+    },
+  },
+};
 
 export default function Terms() {
   const [content, setContent] = useState("");
@@ -20,7 +74,7 @@ export default function Terms() {
 
   return (
     <div
-      className={`min-h-screen flex flex-col bg-[#F0F5F1] relative ${inter.className}`}
+      className={`min-h-screen flex flex-col bg-gradient-to-b from-[#F8F7F4] to-[#E9E6DF] text-[#2D2A26] relative`}
     >
       <NextSeo
         title="Terms of Service – Pippin"
@@ -54,53 +108,14 @@ export default function Terms() {
           },
         ]}
       />
-      <Navbar bg={"bg-[#F0F5F1]"} />
+      <Navbar />
 
-      <main className="flex-grow p-5 md:p-6 pb-24 text-[#3A4D39]">
+      <main className="flex-grow p-5 md:p-6 pb-24">
         <div className="max-w-3xl mx-auto">
-          <article className="prose max-w-none">
+          <article className="prose max-w-none prose-h1:text-4xl prose-h1:font-bold prose-h1:mb-6 prose-h1:mt-0 prose-h2:text-2xl prose-h2:font-semibold prose-h2:mb-4 prose-h2:mt-10 prose-h3:text-xl prose-h3:font-semibold prose-h3:mb-2 prose-h3:mt-8 prose-p:text-lg prose-p:leading-relaxed prose-p:mb-4 prose-a:text-[#6A8A69] prose-a:underline prose-a:font-medium prose-strong:font-bold prose-ul:pl-6 prose-li:mb-2 prose-li:marker:text-[#B6A16B] prose-headings:font-serif prose-headings:text-[#2D2A26] prose-p:text-[#4B463E]">
             <Markdown
               options={{
-                overrides: {
-                  h1: {
-                    props: {
-                      className: "text-3xl font-bold text-[#3A4D39] mb-6",
-                    },
-                  },
-                  h3: {
-                    props: {
-                      className:
-                        "text-xl font-semibold text-[#3A4D39] mt-8 mb-4",
-                    },
-                  },
-                  p: {
-                    props: {
-                      className: "text-[#5A785A] mb-4",
-                    },
-                  },
-                  strong: {
-                    component: ({ children }) => (
-                      <strong className="font-semibold ">{children}</strong>
-                    ),
-                  },
-                  ul: {
-                    component: ({ children }) => (
-                      <ul className="list-disc pl-6 mb-4 text-[#5A785A]">
-                        {children}
-                      </ul>
-                    ),
-                  },
-                  li: {
-                    props: { className: "mb-2" },
-                  },
-                  a: {
-                    component: ({ children, href }) => (
-                      <a className="text-[#6A8A69] underline" href={href}>
-                        {children}
-                      </a>
-                    ),
-                  },
-                },
+                overrides: MARKDOWN_OVERRIDES,
               }}
             >
               {content}
@@ -109,7 +124,7 @@ export default function Terms() {
         </div>
       </main>
 
-      <Footer bg={"bg-[#F0F5F1]"} />
+      <Footer />
     </div>
   );
 }

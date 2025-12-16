@@ -1,4 +1,5 @@
 import React from "react";
+import AppMockupSlideshow from "@/components/AppMockupSlideshow";
 import { NextSeo } from "next-seo";
 import { Navbar } from "@/components/layouts/navbar";
 import { Footer } from "@/components/layouts/footer";
@@ -60,14 +61,12 @@ export default function PippinHomePage() {
             A safe place for overthinking
           </h1>
           <div className="text-lg md:text-xl text-[#6B665B] my-8">
-            <p className="font-semibold">
-              Pippin is a minimalist journal app for overthinkers.
-            </p>{" "}
             <p>
-              Vent thoughts, dump the stress, and let your mind feel lighter.
+              Pippin is a minimalist journaling space for when your thoughts
+              feel loud. Write it out, step away, and come back lighter.
             </p>
           </div>
-          <div className="flex flex-col items-center gap-2">
+          {/* <div className="flex flex-col items-center gap-2">
             <a
               href="https://apps.apple.com/us/app/bill-organizer-matcharge/id6752604627?itscg=30200&itsct=apps_box_badge&mttnsubad=6752604627"
               className="mt-4 inline-block"
@@ -83,20 +82,6 @@ export default function PippinHomePage() {
             <span className="text-slate-500 text-sm">
               No credit card required
             </span>
-          </div>
-          {/* Looping mascot video for visual interest */}
-          {/* <div className="flex justify-center mt-10">
-            <video
-              className="rounded-2xl shadow-lg w-64 md:w-80 h-auto bg-[#e9e6df]"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-              poster="/illustrations/pippin-sleeping-300.png"
-            >
-              <source src="/videos/pippin-grow-300.mp4" type="video/mp4" />
-            </video>
           </div> */}
         </section>
 
@@ -104,11 +89,7 @@ export default function PippinHomePage() {
         <section className="w-full max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-center gap-12 py-12 md:py-20">
           {/* App mockup or mascot illustration */}
           <div className="flex-1 flex justify-center mb-8 md:mb-0">
-            <img
-              src="/illustrations/pippin-dump-300.png"
-              alt="Pippin app mockup"
-              className="w-64 h-auto rounded-2xl shadow-lg bg-[#e9e6df] object-contain"
-            />
+            <AppMockupSlideshow />
           </div>
           {/* Steps */}
           <div className="flex-1 flex flex-col gap-8">
@@ -116,11 +97,11 @@ export default function PippinHomePage() {
               <span className="text-3xl font-bold text-[#B6A16B]">1</span>
               <div>
                 <h4 className="text-xl font-semibold mb-1">
-                  Type or speak to vent your thoughts
+                  Write or speak freely
                 </h4>
                 <p className="text-[#6B665B]">
-                  Jot down or voice your worries, ideas, or feelings—no
-                  pressure, no judgment.
+                  Capture thoughts the moment they appear, whether you want to
+                  type or just talk it out.
                 </p>
               </div>
             </div>
@@ -128,11 +109,11 @@ export default function PippinHomePage() {
               <span className="text-3xl font-bold text-[#B6A16B]">2</span>
               <div>
                 <h4 className="text-xl font-semibold mb-1">
-                  Plant it, and wait for 24 hours
+                  See your thoughts grow
                 </h4>
                 <p className="text-[#6B665B]">
-                  Lock your entry away. Give your mind a break while your
-                  thought "grows" in the garden.
+                  Each entry becomes a plant in your garden, helping you notice
+                  patterns without overanalyzing.
                 </p>
               </div>
             </div>
@@ -141,19 +122,17 @@ export default function PippinHomePage() {
               <div>
                 <h4 className="text-xl font-semibold mb-1">Watch it bloom</h4>
                 <p className="text-[#6B665B]">
-                  After 24 hours, your thought blooms into a flower—see your
-                  progress visually.
+                  After time passes, your thought becomes part of your garden, a
+                  visual reminder that you moved through it.
                 </p>
               </div>
             </div>
             <div className="flex items-start gap-4">
               <span className="text-3xl font-bold text-[#B6A16B]">4</span>
               <div>
-                <h4 className="text-xl font-semibold mb-1">
-                  Get insights, not advice
-                </h4>
+                <h4 className="text-xl font-semibold mb-1">Reflect, gently</h4>
                 <p className="text-[#6B665B]">
-                  Receive gentle, supportive reflections from Pippin—never
+                  Pippin offers supportive reflections, not advice, not
                   judgment, just perspective.
                 </p>
               </div>
@@ -170,52 +149,96 @@ export default function PippinHomePage() {
             grow—at your own pace, in your own way. No pressure, just gentle
             support.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {/* Feature Card 1 */}
             <div className="flex flex-col items-center text-center rounded-2xl space-y-5">
-              <div className="overflow-clip h-92 w-full flex justify-center rounded-3xl bg-white/80 shadow">
+              <div className="overflow-clip bg-linear-to-b from-[#D1F8EF] via-[#A1E3F9] to-[#578FCA] h-92 w-full flex justify-center rounded-3xl bg-white/80 shadow">
                 <img
                   src="/mockups/pippin_mockup_1.png"
                   alt="Vent thoughts"
-                  className="w-full max-w-xs mt-4 object-cover object-top"
+                  className="w-2/3 max-w-xs mt-4 object-cover object-top shadow-2xl"
                 />
               </div>
-              <h3 className="text-xl font-bold mb-2">
-                Vent thoughts, no pressure
-              </h3>
+              <h3 className="text-xl font-bold mb-2">Vent freely</h3>
               <p className="text-[#6B665B]">
-                Type or speak to brain dump your worries, ideas, or feelings—no
-                judgment, just relief.
+                Type or speak your thoughts as they come. No formatting, no
+                rules — just release what’s been sitting in your head.
               </p>
             </div>
             {/* Feature Card 2 */}
             <div className="flex flex-col items-center text-center rounded-2xl space-y-5">
-              <div className="overflow-clip h-92 w-full flex justify-center rounded-3xl bg-white/80 shadow">
+              <div className="overflow-clip bg-linear-to-b from-[#D1F8EF] via-[#A1E3F9] to-[#578FCA] h-92 w-full flex justify-center rounded-3xl bg-white/80 shadow">
                 <img
                   src="/mockups/pippin_mockup_2.png"
                   alt="Plant and wait"
-                  className="w-full max-w-xs mt-4 object-cover object-top"
+                  className="w-2/3 max-w-xs mt-4 object-cover object-top shadow-2xl"
                 />
               </div>
-              <h3 className="text-xl font-bold mb-2">Plant it, and wait</h3>
+              <h3 className="text-xl font-bold mb-2">Lock it away</h3>
               <p className="text-[#6B665B]">
-                Lock your entry for 24 hours. Give your mind a break while your
-                thought grows in your garden.
+                Once you’re done, your entry is planted and locked. You don’t
+                have to reread or overanalyze it right away.
               </p>
             </div>
             {/* Feature Card 3 */}
             <div className="flex flex-col items-center text-center rounded-2xl space-y-5">
-              <div className="overflow-clip h-92 w-full flex justify-center rounded-3xl bg-white/80 shadow">
+              <div className="overflow-clip bg-linear-to-b from-[#D1F8EF] via-[#A1E3F9] to-[#578FCA] h-92 w-full flex justify-center rounded-3xl bg-white/80 shadow">
                 <img
                   src="/mockups/pippin_mockup_3.png"
                   alt="Watch it bloom"
-                  className="w-full max-w-xs mt-4 object-cover object-top"
+                  className="w-2/3 max-w-xs mt-4 object-cover object-top shadow-2xl"
                 />
               </div>
               <h3 className="text-xl font-bold mb-2">Watch it bloom</h3>
               <p className="text-[#6B665B]">
-                After 24 hours, your thought blooms into a flower—see your
-                progress visually and celebrate growth.
+                After time passes, your thought blooms into a plant. A gentle,
+                visual reminder that you moved through it.
+              </p>
+            </div>
+            <div className="flex flex-col items-center text-center rounded-2xl space-y-5">
+              <div className="overflow-clip bg-linear-to-b from-[#D1F8EF] via-[#A1E3F9] to-[#578FCA] h-92 w-full flex justify-center rounded-3xl bg-white/80 shadow">
+                <img
+                  src="/mockups/pippin_mockup_6.png"
+                  alt="Your thoughts stay yours"
+                  className="w-2/3 max-w-xs mt-4 object-cover object-top shadow-2xl"
+                />
+              </div>
+              <h3 className="text-xl font-bold mb-2">
+                Your thoughts stay yours
+              </h3>
+              <p className="text-[#6B665B]">
+                Face ID, privacy screen, and secure storage keep your diary
+                personal. Nothing is shared unless you choose.
+              </p>
+            </div>
+            <div className="flex flex-col items-center text-center rounded-2xl space-y-5">
+              <div className="overflow-clip bg-linear-to-b from-[#D1F8EF] via-[#A1E3F9] to-[#578FCA] h-92 w-full flex justify-center rounded-3xl bg-white/80 shadow">
+                <img
+                  src="/mockups/pippin_mockup_4.png"
+                  alt="Gentle insights"
+                  className="w-2/3 max-w-xs mt-4 object-cover object-top shadow-2xl"
+                />
+              </div>
+              <h3 className="text-xl font-bold mb-2">
+                Gentle insights, not advice
+              </h3>
+              <p className="text-[#6B665B]">
+                Receive supportive letters that help you pause and reframe —
+                without telling you what to do.
+              </p>
+            </div>
+            <div className="flex flex-col items-center text-center rounded-2xl space-y-5">
+              <div className="overflow-clip bg-linear-to-b from-[#D1F8EF] via-[#A1E3F9] to-[#578FCA] h-92 w-full flex justify-center rounded-3xl bg-white/80 shadow">
+                <img
+                  src="/mockups/pippin_mockup_5.png"
+                  alt="Gentle insights"
+                  className="w-2/3 max-w-xs mt-4 object-cover object-top shadow-2xl"
+                />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Grow at your own pace</h3>
+              <p className="text-[#6B665B]">
+                Let thoughts bloom naturally, or unlock faster growth and full
+                history when you’re ready.
               </p>
             </div>
           </div>
@@ -244,38 +267,6 @@ export default function PippinHomePage() {
             className="w-10 h-10"
           />
         </div> */}
-
-        {/* Privacy & Insights Section */}
-        <section className="w-full max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 py-12 md:py-20">
-          <div className="flex flex-col items-center text-center gap-4">
-            <img
-              src="/illustrations/pippin-lock.webp"
-              alt="Privacy"
-              className="w-20 h-20 mb-2"
-            />
-            <h3 className="text-2xl font-semibold mt-2">
-              Your thoughts stay yours
-            </h3>
-            <p className="text-[#6B665B]">
-              Face ID, privacy screen, and peace of mind. No one sees your diary
-              except you.
-            </p>
-          </div>
-          <div className="flex flex-col items-center text-center gap-4">
-            <img
-              src="/illustrations/pippin-writing-300.png"
-              alt="Gentle insights"
-              className="w-20 h-20 mb-2"
-            />
-            <h3 className="text-2xl font-semibold mt-2">
-              Gentle insights, not advice
-            </h3>
-            <p className="text-[#6B665B]">
-              Reflect without pressure. Receive supportive letters from Pippin
-              after journaling.
-            </p>
-          </div>
-        </section>
       </main>
       <Footer bg="bg-[#F8F7F4]" />
     </div>

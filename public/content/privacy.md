@@ -50,4 +50,4 @@ You may review, change, or terminate your account at any time. You can delete yo
 
 ### 6. CONTACT US
 
-If you have questions or comments about this policy, you may email us at [hey@overthinkingjournal.app](mailto:hey@overthinkingjournal.app).
+If you have questions or comments about this policy, you may email us at [hey@getpippin.app](mailto:hey@getpippin.app).
