@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.geekchimp.weton",
+      "sha256_cert_fingerprints": [
+        "C1:62:EE:0A:68:B6:D0:28:1B:E4:67:CA:BF:19:32:75:29:F8:51:FB:E7:09:FD:7F:B3:A7:4E:07:AE:0F:76:BE"
+      ]
+    }
+  }
+]

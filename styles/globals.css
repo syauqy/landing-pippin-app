@@ -1,0 +1,127 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: pastel --default;
+}
+
+@plugin "daisyui/theme" {
+  name: "mytheme";
+  default: true; /* set as default */
+  prefersdark: false; /* set as default dark mode (prefers-color-scheme:dark) */
+  color-scheme: light; /* color of browser-provided UI */
+
+  --color-base-100: oklch(0.98 0.01 120);
+  --color-base-200: oklch(0.96 0.02 120);
+  --color-base-300: oklch(0.93 0.03 120);
+  --color-base-content: oklch(0.3 0.08 150);
+
+  --color-primary: oklch(0.7 0.15 145);
+  --color-primary-content: oklch(0.2 0.06 145);
+
+  --color-secondary: oklch(0.85 0.08 135);
+  --color-secondary-content: oklch(0.3 0.08 135);
+
+  --color-accent: oklch(0.8 0.12 110);
+  --color-accent-content: oklch(0.3 0.07 110);
+
+  --color-neutral: oklch(0.55 0.05 150);
+  --color-neutral-content: oklch(0.98 0.01 120);
+
+  --color-info: oklch(0.7 0.15 225);
+  --color-info-content: oklch(0.2 0.06 225);
+
+  --color-success: oklch(0.75 0.15 150);
+  --color-success-content: oklch(0.2 0.05 150);
+
+  --color-warning: oklch(0.8 0.16 90);
+  --color-warning-content: oklch(0.3 0.08 90);
+
+  --color-error: oklch(0.7 0.2 25);
+  --color-error-content: oklch(0.98 0.01 25);
+
+  /* border radius */
+  --radius-selector: 2rem;
+  --radius-field: 1rem;
+  --radius-box: 1rem;
+
+  /* base sizes */
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  /* border size */
+  --border: 1px;
+
+  /* effects */
+  --depth: 1;
+  --noise: 0;
+}
+
+/* This sets a different background and item background in light mode on ios */
+.ios body {
+  --ion-background-color: #f2f2f6;
+}
+
+/* This sets a different background and item background in light mode on md */
+.md body {
+  --ion-background-color: #f9f9f9;
+}
+
+.ios body.dark {
+  --ion-background-color: #000000;
+}
+
+.md body.dark {
+  --ion-background-color: #121212;
+}
+
+/* Onboarding Carousel Styles */
+.onboarding-slider {
+  margin-bottom: 30px;
+}
+
+.onboarding-slider .slick-dots {
+  bottom: -10px;
+}
+
+.onboarding-slider .slick-dots li button:before {
+  font-size: 10px;
+  color: #c8c8c8;
+  opacity: 0.5;
+}
+
+.onboarding-slider .slick-dots li.slick-active button:before {
+  opacity: 1;
+  color: #d1b08e;
+}
+
+.onboarding-slider div {
+  outline: none;
+}
+
+.onboarding-slider img {
+  transition: transform 0.3s ease-in-out;
+}
+
+.onboarding-slider .slick-current img {
+  transform: scale(1.05);
+}
+
+body {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+@media (hover: none) {
+  .button:hover {
+    /* Reset the hover styles */
+    background-color: initial;
+    color: initial;
+    /* Add any other style resets needed */
+  }
+}
