@@ -61,6 +61,13 @@ export function Footer({ bg }) {
                 style={{ display: "inline" }}
               />
             </a>
+            <a href="https://fazier.com/launches/getpippin.app" target="_blank">
+              <img
+                src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=light"
+                width={120}
+                alt="Fazier badge"
+              />
+            </a>
             {/* <a href="/faq" className="text-gray-600 hover:text-batik-text">
               FAQ
             </a> */}
