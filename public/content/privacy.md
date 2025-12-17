@@ -1,53 +1,95 @@
-# Privacy Policy for Overthinking Journal
+# Privacy Policy for Pippin - Overthinking Journal
 
-**Last Updated:** November 30, 2025
+**Last Updated:** December 17, 2025
 
-Thank you for using Overthinking Journal ("we," "us," or "our"). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains what information we collect, how we use it, and what rights you have in relation to it.
+## 1. Introduction
 
-### 1. WHAT INFORMATION DO WE COLLECT?
+Thank you for choosing Pippin ("App," "we," "us," or "our"). We are committed to protecting your personal information and your right to privacy. When you use our App, you trust us with your personal data. We take that trust very seriously.
 
-We collect personal information that you voluntarily provide to us when you register on the app, as well as information that is collected automatically.
+This Privacy Policy describes how we collect, use, store, and share your information when you use our mobile application and related services.
 
-#### Personal Information You Disclose to Us:
+By using the App, you agree to the collection and use of information in accordance with this policy.
 
-**Account Information:** When you choose to create an account by linking your Google or Apple account, we receive your name, email address, and profile picture as provided by those services.
+## 2. Information We Collect
 
-**Journal Entries:** We collect and store the journal entries ("dumps") you create in the app, including your thoughts, worries, and reflections that you choose to record. This content is stored securely and privately.
+We collect information that helps us provide the App's core features (journaling, garden visualization, and AI insights).
 
-**Onboarding Preferences:** We collect your worry type preference and preferred language for speech recognition to personalize your experience.
+### A. Information You Provide to Us
 
-#### Information Automatically Collected:
+- Account Data: When you register, we collect authentication tokens and a User ID provided by your chosen login provider (Apple Sign-In or Google Sign-In). We may collect your name/email if provided by these services, solely for account management.
 
-**Anonymous User ID:** When you first use the app, we assign you a unique, anonymous identifier through Firebase Authentication to store your initial data locally. This ID is not linked to your personal identity until you choose to create a permanent account.
+- User Content (Journal Entries): We collect the text, sentiment selections, and voice-to-text transcripts you input into the App ("Thoughts" or "Dumps"). This data is essential for the "Garden" visualization and "Pippin's Letters" features.
 
-**Usage Data:** We may collect information about how you interact with our app for the purpose of improving our services.
+- Customer Support: If you contact us for support, we may collect your email address and the content of your message.
 
-#### Purchase Information:
+### B. Automatically Collected Information
 
-All in-app purchases are processed through Apple's App Store or Google Play Store. We do not collect or store your payment card details.
+- Usage Data: We collect anonymous data about how you use the App, such as which features you visit, session duration, and the "seeds" you plant. This helps us improve the App experience.
 
-### 2. HOW DO WE USE YOUR INFORMATION?
+- Device Information: We may collect basic device details (e.g., iOS version, device model, language settings) to ensure compatibility and troubleshoot bugs.
 
-We use the information we collect to:
+- Transaction Data: If you purchase a subscription, our payment processor (Apple App Store) handles the financial data. We do not store your credit card information. We only receive a receipt token (via RevenueCat) to verify your "Pro" status.
 
-- Provide, operate, and maintain the core functionality of the Overthinking Journal app.
-- Sync your journal entries and preferences across devices if you create an account.
-- Enable voice-to-text journaling using your preferred language.
-- Send you optional reminders if you enable the notification feature.
-- Improve the app's performance and user experience.
+## 3. How We Use Your Information
 
-### 3. WILL YOUR INFORMATION BE SHARED WITH ANYONE?
+We use your data for the following legitimate business purposes:
 
-We do not sell, trade, or otherwise transfer your personally identifiable information to outside parties. Your journal entries are private and only accessible to you. Your data is stored securely in Google's Firebase platform. We may use analytics services (like PostHog) to improve the app, but these services do not have access to your journal content.
+- To Provide the Service: To create your account, store your journal history, render your "Garden," and sync your progress across your devices.
 
-### 4. HOW DO WE KEEP YOUR INFORMATION SAFE?
+- To Generate AI Insights: We process your journal text inputs to generate "Sentiment Analysis" and "Pippin's Letters" (AI-generated responses).
 
-We use Google Firebase, a secure and industry-standard platform, to store and protect your data. While we take all reasonable measures to protect your information, no electronic transmission or storage technology can be guaranteed to be 100% secure.
+- To Maintain Security: To protect your account and prevent fraud.
 
-### 5. WHAT ARE YOUR PRIVACY RIGHTS?
+- To Communicate: To send you important updates regarding your account or changes to our policies.
 
-You may review, change, or terminate your account at any time. You can delete your account from the Settings page within the app, which will permanently delete all associated data from our servers.
+## 4. How We Process Data with AI
 
-### 6. CONTACT US
+To provide the "Pippin" persona and sentiment analysis, your text inputs (Journal Entries) are sent to third-party Artificial Intelligence providers (e.g., Google Gemini) via secure, encrypted APIs.
+
+- No Training on Your Data: We configure our third-party API usage to ensure that your personal journal entries are not used to train their general public models.
+
+- Transient Processing: Data sent to AI providers is for the sole purpose of generating a response and is processed in accordance with their strict enterprise privacy standards.
+
+## 5. Sharing Your Information
+
+We do not sell, trade, or rent your personal information to third parties for marketing purposes.
+
+We only share data with trusted third-party service providers who assist us in operating the App:
+
+- Google Firebase: For secure cloud database storage, authentication, and analytics.
+
+- RevenueCat: For managing subscription status and purchase validation.
+
+- Google Gemini (or similar AI providers): For processing text to generate in-app content.
+
+These parties are contractually obligated to keep your information confidential and use it only for the purposes we specify.
+
+## 6. Data Retention and Security
+
+- Security: We use industry-standard encryption (SSL/TLS) to protect your data during transmission. Your journal entries are stored in secure, access-controlled cloud databases (Firestore).
+
+- Retention: We retain your personal data and journal entries only for as long as your account is active.
+
+- Deletion: If you delete your account via the App settings, all your personal data, journal history, and garden progress are permanently deleted from our servers immediately.
+
+## 7. Your Privacy Rights
+
+Depending on your location, you have certain rights regarding your data:
+
+- Access: You can view your journal history directly within the App.
+
+- Correction: You can update your account settings within the App.
+
+- Deletion: You have the right to request the deletion of your account and all associated data. You can perform this action instantly via the "Delete Account" button in the App's settings menu.
+
+## 8. Children's Privacy
+
+The App is not intended for use by children under the age of 13. We do not knowingly collect personal information from children under 13. If we become aware that we have collected personal data from a child under 13, we will take steps to delete that information.
+
+## 9. Changes to This Privacy Policy
+
+We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date. You are advised to review this Privacy Policy periodically for any changes.
+
+## 10. Contact Us
 
 If you have questions or comments about this policy, you may email us at [hey@getpippin.app](mailto:hey@getpippin.app).

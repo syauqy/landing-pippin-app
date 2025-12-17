@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://pippin.app
+Host: https://matcharge.app
 
 # Sitemaps
-Sitemap: https://pippin.app/sitemap.xml
+Sitemap: https://matcharge.app/sitemap.xml
