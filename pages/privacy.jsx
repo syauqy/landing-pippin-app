@@ -112,7 +112,7 @@ export default function Privacy() {
 
       <main className="grow p-5 md:p-6 pb-24">
         <div className="max-w-3xl mx-auto ">
-          <article className="prose max-w-none prose-h1:text-4xl prose-h1:font-bold prose-h1:mb-6 prose-h1:mt-0 prose-h2:text-2xl prose-h2:font-semibold prose-h2:mb-4 prose-h2:mt-10 prose-h3:text-xl prose-h3:font-semibold prose-h3:mb-2 prose-h3:mt-8 prose-p:text-lg prose-p:leading-relaxed prose-p:mb-4 prose-a:text-[#6A8A69] prose-a:underline prose-a:font-medium prose-strong:font-bold prose-ul:pl-6 prose-li:mb-2 prose-li:marker:text-[#B6A16B] prose-headings:font-serif prose-headings:text-[#2D2A26] prose-p:text-[#4B463E]">
+          <article className="prose max-w-none prose-h1:text-4xl prose-h1:font-bold prose-h1:mb-6 prose-h1:mt-0 prose-h2:text-2xl prose-h2:font-semibold prose-h2:mb-4 prose-h2:mt-10 prose-h3:text-xl prose-h3:font-semibold prose-h3:mb-2 prose-h3:mt-8 prose-p:text-lg prose-p:leading-relaxed prose-p:mb-4 prose-a:text-[#6A8A69] prose-a:underline prose-a:font-medium prose-strong:font-bold prose-ul:pl-6 prose-ul:mb-4 prose-ul:list-disc prose-li:mb-1 prose-li:ml-2 prose-li:marker:text-[#B6A16B] prose-li:text-[#4B463E] prose-headings:font-serif prose-headings:text-[#2D2A26] prose-p:text-[#4B463E]">
             <Markdown
               options={{
                 overrides: MARKDOWN_OVERRIDES,
