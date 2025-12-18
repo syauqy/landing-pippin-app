@@ -75,7 +75,7 @@ export function Footer({ bg }) {
             </a> */}
           </div>
         </div>
-        <div className="mt-5 flex justify-center md:justify-start gap-2">
+        <div className="mt-5 flex justify-center items-center md:justify-start gap-2">
           <a
             href="https://fazier.com/launches/getpippin.app"
             target="_blank"
@@ -87,8 +87,16 @@ export function Footer({ bg }) {
               alt="Fazier badge"
             />
           </a>
-          <a href="https://viesearch.com/" className="text-base-100">
-            Viesearch - The Human-curated Search Engine
+          <a
+            href="https://turbo0.com/item/pippin-overthinking-journal"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://img.turbo0.com/badge-listed-light.svg"
+              alt="Listed on Turbo0"
+              style={{ height: "54px", width: "auto" }}
+            />
           </a>
         </div>
       </div>
