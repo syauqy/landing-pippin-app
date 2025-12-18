@@ -82,17 +82,17 @@ export default function Privacy() {
         openGraph={{
           type: "website",
           locale: "en_US",
-          url: "https://pippin.app/privacy",
+          url: "https://getpippin.app/privacy",
           siteName: "Pippin",
           title: "Privacy Policy – Pippin",
           description:
             "Minimalist journal for overthinkers. Quiet your mind, lock it away, and let it go.",
           images: [
             {
-              url: "/logos/puppin.png",
+              url: "/pippin-banner.jpg",
               width: 1200,
               height: 630,
-              alt: "Pippin Mascot Logo",
+              alt: "Pippin – Privacy Policy",
             },
           ],
         }}

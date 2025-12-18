@@ -10,7 +10,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.49.4",
     "airtable": "^0.12.2",
     "axios": "^1.10.0",
     "clsx": "^2.1.1",
@@ -31,8 +30,6 @@
     "sonner": "^2.0.3"
   },
   "devDependencies": {
-    "@capacitor/assets": "^3.0.5",
-    "@capacitor/cli": "7.4.0",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/postcss": "^4",
@@ -41,7 +38,6 @@
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
     "raw-loader": "^4.0.2",
-    "supabase": "^2.22.6",
     "tailwindcss": "^4"
   }
 }

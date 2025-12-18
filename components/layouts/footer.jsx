@@ -37,6 +37,12 @@ export function Footer({ bg }) {
           </div>
           <div className="w-full md:w-fit order-first text-center md:text-left flex flex-col gap-2 mb-6 md:mb-0 md:order-0">
             <Link
+              href="/support"
+              className="font-semibold text-lg text-gray-600 hover:text-batik-text"
+            >
+              Support
+            </Link>
+            <Link
               href="/privacy"
               className="font-semibold text-lg text-gray-600 hover:text-batik-text"
             >
@@ -61,17 +67,24 @@ export function Footer({ bg }) {
                 style={{ display: "inline" }}
               />
             </a>
-            <a href="https://fazier.com/launches/getpippin.app" target="_blank">
-              <img
-                src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=light"
-                width={120}
-                alt="Fazier badge"
-              />
-            </a>
+
             {/* <a href="/faq" className="text-gray-600 hover:text-batik-text">
               FAQ
             </a> */}
           </div>
+        </div>
+        <div className="mt-5 flex justify-center md:justify-start">
+          <a
+            href="https://fazier.com/launches/getpippin.app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=light"
+              // width={120}
+              alt="Fazier badge"
+            />
+          </a>
         </div>
       </div>
     </footer>

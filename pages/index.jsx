@@ -4,6 +4,8 @@ import { NextSeo } from "next-seo";
 import { Navbar } from "@/components/layouts/navbar";
 import { Footer } from "@/components/layouts/footer";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import FAQAccordion from "@/components/FAQAccordion";
+import { faqData } from "@/lib/faqdata";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   weight: "800",
@@ -19,17 +21,17 @@ export default function PippinHomePage() {
         openGraph={{
           type: "website",
           locale: "en_US",
-          url: "https://pippin.app/",
+          url: "https://getpippin.app/",
           siteName: "Pippin",
           title: "Pippin – Overthinking Journal",
           description:
             "Minimalist journal app for overthinkers. Quiet your mind: write it down, lock it away, and let it go.",
           images: [
             {
-              url: "/logos/app-icon-mix-2.jpg",
-              width: 512,
-              height: 512,
-              alt: "Pippin Mascot Logo",
+              url: "/pippin-banner.jpg",
+              width: 1200,
+              height: 630,
+              alt: "Pippin – Overthinking Journal",
             },
           ],
         }}
@@ -154,7 +156,7 @@ export default function PippinHomePage() {
             <div className="flex flex-col items-center text-center rounded-2xl space-y-5">
               <div className="overflow-clip bg-linear-to-b from-[#D1F8EF] via-[#A1E3F9] to-[#578FCA] h-92 w-full flex justify-center rounded-3xl bg-white/80 shadow">
                 <img
-                  src="/mockups/pippin_mockup_1.png"
+                  src="/mockups/pippin_mockup_1.webp"
                   alt="Vent thoughts"
                   className="w-2/3 max-w-xs mt-4 object-cover object-top shadow-2xl"
                 />
@@ -169,7 +171,7 @@ export default function PippinHomePage() {
             <div className="flex flex-col items-center text-center rounded-2xl space-y-5">
               <div className="overflow-clip bg-linear-to-b from-[#D1F8EF] via-[#A1E3F9] to-[#578FCA] h-92 w-full flex justify-center rounded-3xl bg-white/80 shadow">
                 <img
-                  src="/mockups/pippin_mockup_2.png"
+                  src="/mockups/pippin_mockup_2.webp"
                   alt="Plant and wait"
                   className="w-2/3 max-w-xs mt-4 object-cover object-top shadow-2xl"
                 />
@@ -184,7 +186,7 @@ export default function PippinHomePage() {
             <div className="flex flex-col items-center text-center rounded-2xl space-y-5">
               <div className="overflow-clip bg-linear-to-b from-[#D1F8EF] via-[#A1E3F9] to-[#578FCA] h-92 w-full flex justify-center rounded-3xl bg-white/80 shadow">
                 <img
-                  src="/mockups/pippin_mockup_3.png"
+                  src="/mockups/pippin_mockup_3.webp"
                   alt="Watch it bloom"
                   className="w-2/3 max-w-xs mt-4 object-cover object-top shadow-2xl"
                 />
@@ -198,7 +200,7 @@ export default function PippinHomePage() {
             <div className="flex flex-col items-center text-center rounded-2xl space-y-5">
               <div className="overflow-clip bg-linear-to-b from-[#D1F8EF] via-[#A1E3F9] to-[#578FCA] h-92 w-full flex justify-center rounded-3xl bg-white/80 shadow">
                 <img
-                  src="/mockups/pippin_mockup_6.png"
+                  src="/mockups/pippin_mockup_6.webp"
                   alt="Your thoughts stay yours"
                   className="w-2/3 max-w-xs mt-4 object-cover object-top shadow-2xl"
                 />
@@ -214,7 +216,7 @@ export default function PippinHomePage() {
             <div className="flex flex-col items-center text-center rounded-2xl space-y-5">
               <div className="overflow-clip bg-linear-to-b from-[#D1F8EF] via-[#A1E3F9] to-[#578FCA] h-92 w-full flex justify-center rounded-3xl bg-white/80 shadow">
                 <img
-                  src="/mockups/pippin_mockup_4.png"
+                  src="/mockups/pippin_mockup_4.webp"
                   alt="Gentle insights"
                   className="w-2/3 max-w-xs mt-4 object-cover object-top shadow-2xl"
                 />
@@ -230,7 +232,7 @@ export default function PippinHomePage() {
             <div className="flex flex-col items-center text-center rounded-2xl space-y-5">
               <div className="overflow-clip bg-linear-to-b from-[#D1F8EF] via-[#A1E3F9] to-[#578FCA] h-92 w-full flex justify-center rounded-3xl bg-white/80 shadow">
                 <img
-                  src="/mockups/pippin_mockup_5.png"
+                  src="/mockups/pippin_mockup_5.webp"
                   alt="Gentle insights"
                   className="w-2/3 max-w-xs mt-4 object-cover object-top shadow-2xl"
                 />
@@ -241,6 +243,21 @@ export default function PippinHomePage() {
                 history when you’re ready.
               </p>
             </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="w-full bg-white/40 py-16 md:py-24 px-4">
+          <div className="flex flex-col items-center">
+            <div className="w-full max-w-2xl mb-8 text-center">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                Frequently Asked Questions
+              </h2>
+              <p className="text-lg text-[#6B665B]">
+                Find answers to common questions about Pippin
+              </p>
+            </div>
+            <FAQAccordion faqData={faqData} />
           </div>
         </section>
 

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const mockups = [
-  { src: "/mockups/pippin_mockup_1.png", number: 1 },
-  { src: "/mockups/pippin_mockup_2.png", number: 2 },
-  { src: "/mockups/pippin_mockup_3.png", number: 3 },
-  { src: "/mockups/pippin_mockup_4.png", number: 4 },
+  { src: "/mockups/pippin_mockup_1.webp", number: 1 },
+  { src: "/mockups/pippin_mockup_2.webp", number: 2 },
+  { src: "/mockups/pippin_mockup_3.webp", number: 3 },
+  { src: "/mockups/pippin_mockup_4.webp", number: 4 },
 ];
 
 export default function AppMockupSlideshow({ interval = 5000 }) {

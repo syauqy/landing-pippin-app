@@ -40,22 +40,22 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-base-100">
       <NextSeo
-        title="Contact & Support - Wetonscope"
-        description="Discover your soul's blueprint with Wetonscope, a modern guide to ancient Javanese wisdom. Get personalized daily readings, relationship compatibility insights, and deep self-discovery through traditional Weton calculations."
+        title="Contact & Support – Pippin"
+        description="Have feedback or questions about Pippin? We'd love to hear from you. Send us a message and we'll get back to you soon."
         openGraph={{
           type: "website",
           locale: "en_US",
-          url: "https://wetonscope.com/contact",
-          siteName: "Wetonscope",
-          title: "Contact & Support - Wetonscope",
+          url: "https://getpippin.app/contact",
+          siteName: "Pippin",
+          title: "Contact & Support – Pippin",
           description:
-            "Discover your soul's blueprint with Wetonscope. Get personalized daily readings and relationship insights based on ancient Javanese wisdom.",
+            "Have feedback or questions about Pippin? We'd love to hear from you.",
           images: [
             {
-              url: "/wetonscope-app-hero.png",
+              url: "/pippin-banner.jpg",
               width: 1200,
               height: 630,
-              alt: "Wetonscope App Preview",
+              alt: "Pippin – Contact & Support",
             },
           ],
         }}

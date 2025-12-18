@@ -4,7 +4,7 @@ const path = require("path");
 const matter = require("gray-matter");
 
 module.exports = {
-  siteUrl: process.env.SITE_URL || "https://matcharge.app",
+  siteUrl: process.env.SITE_URL || "https://getpippin.app",
   generateRobotsTxt: true,
   robotsTxtOptions: {
     policies: [

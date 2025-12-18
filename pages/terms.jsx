@@ -82,17 +82,17 @@ export default function Terms() {
         openGraph={{
           type: "website",
           locale: "en_US",
-          url: "https://pippin.app/terms",
+          url: "https://getpippin.app/terms",
           siteName: "Pippin",
           title: "Terms of Service – Pippin",
           description:
             "Minimalist journal for overthinkers. Quiet your mind, lock it away, and let it go.",
           images: [
             {
-              url: "/logos/puppin.png",
+              url: "/pippin-banner.jpg",
               width: 1200,
               height: 630,
-              alt: "Pippin Mascot Logo",
+              alt: "Pippin – Terms of Service",
             },
           ],
         }}

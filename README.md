@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/logos/app-icon-mix-2.jpg" alt="Pippin Mascot Logo" width="120" />
+  <img src="public/logos/app-icon-mix-2.jpg" alt="Pippin Mascot Logo" width="120" style="display: block; margin: 0 auto; border-radius: 25px;"/>
   <h1>Pippin – Overthinking Journal</h1>
   <p><strong>The simplest way to quiet your mind: write it down, lock it away, and let it go.</strong></p>
   <!-- <a href="https://apps.apple.com/app/id6752604627" target="_blank">
