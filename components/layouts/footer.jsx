@@ -75,7 +75,7 @@ export function Footer({ bg }) {
             </a> */}
           </div>
         </div>
-        <div className="mt-5 flex justify-center md:justify-start">
+        <div className="mt-5 flex justify-center md:justify-start gap-2">
           <a
             href="https://fazier.com/launches/getpippin.app"
             target="_blank"
@@ -86,6 +86,9 @@ export function Footer({ bg }) {
               // width={120}
               alt="Fazier badge"
             />
+          </a>
+          <a href="https://viesearch.com/" className="text-base-100">
+            Viesearch - The Human-curated Search Engine
           </a>
         </div>
       </div>
