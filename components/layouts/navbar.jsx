@@ -26,7 +26,9 @@ export function Navbar({ bg, page }) {
     <nav
       className={clsx(
         "sticky top-0 z-40 transition-colors duration-200",
-        hasScrolled ? "bg-white/80 backdrop-blur-md shadow-sm" : bg
+        hasScrolled
+          ? "bg-base-100/80 backdrop-blur-md shadow-sm"
+          : "bg-base-100"
       )}
     >
       <div className="container mx-auto px-4">
@@ -35,7 +37,7 @@ export function Navbar({ bg, page }) {
           <Link
             href="/"
             className={clsx(
-              "text-3xl md:text-4xl font-bold text-[#2D2A26] flex items-center gap-2",
+              "text-3xl md:text-4xl font-bold text-base-content flex items-center gap-2",
               caveat.className
             )}
             aria-label="Pippin Home"

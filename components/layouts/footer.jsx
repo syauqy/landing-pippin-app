@@ -17,7 +17,7 @@ export function Footer({ bg }) {
             <Link
               href="/"
               className={clsx(
-                "text-4xl font-bold text-[#2D2A26] flex items-center gap-2 justify-center md:justify-start",
+                "text-4xl font-bold text-base-content flex items-center gap-2 justify-center md:justify-start",
                 caveat.className
               )}
               aria-label="Pippin Home"
@@ -29,28 +29,30 @@ export function Footer({ bg }) {
               />
               Pippin
             </Link>
-            <p className="mt-2 mb-4 text-gray-700 font-semibold max-w-sm">
+            <p className="mt-2 mb-4 text-base-content/60 font-semibold max-w-sm">
               Minimalist journal for overthinkers. Quiet your mind, lock it
               away, and let it go.
             </p>
-            <p className="text-gray-800">© 2025 Pippin. All rights reserved.</p>
+            <p className="text-base-content">
+              © 2025 Pippin. All rights reserved.
+            </p>
           </div>
           <div className="w-full md:w-fit order-first text-center md:text-left flex flex-col gap-2 mb-6 md:mb-0 md:order-0">
             <Link
               href="/support"
-              className="font-semibold text-lg text-gray-600 hover:text-batik-text"
+              className="font-semibold text-lg text-base-content/70 hover:text-primary"
             >
               Support
             </Link>
             <Link
               href="/privacy"
-              className="font-semibold text-lg text-gray-600 hover:text-batik-text"
+              className="font-semibold text-lg text-base-content/70 hover:text-primary"
             >
               Privacy Policy
             </Link>
             <Link
               href="/terms"
-              className="font-semibold text-lg text-gray-600 hover:text-batik-text"
+              className="font-semibold text-lg text-base-content/70 hover:text-primary"
             >
               Terms of Service
             </Link>
@@ -58,7 +60,7 @@ export function Footer({ bg }) {
               href="https://www.tiktok.com/@the_overthinkerclub"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold text-lg text-gray-600 hover:text-[#B6A16B] flex items-center justify-center md:justify-start gap-2"
+              className="font-semibold text-lg text-base-content/70 hover:text-primary flex items-center justify-center md:justify-start gap-2"
             >
               <img
                 src="/logos/tiktok.svg"

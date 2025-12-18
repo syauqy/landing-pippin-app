@@ -34,7 +34,7 @@ export default function AppMockupSlideshow({ interval = 5000 }) {
             alt={`Pippin app mockup ${mockups[index].number}`}
             className="w-full h-auto object-contain"
           />
-          <span className="absolute top-4 left-4 bg-[#B6A16B] text-white text-2xl font-bold rounded-full px-3.5 py-1 shadow">
+          <span className="absolute top-4 left-4 bg-primary text-primary-content text-2xl font-bold rounded-full px-3.5 py-1 shadow">
             {mockups[index].number}
           </span>
         </motion.div>

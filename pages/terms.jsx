@@ -73,9 +73,7 @@ export default function Terms() {
   }, []);
 
   return (
-    <div
-      className={`min-h-screen flex flex-col bg-gradient-to-b from-[#F8F7F4] to-[#E9E6DF] text-[#2D2A26] relative`}
-    >
+    <div className="min-h-screen flex flex-col bg-base-100 text-base-content relative">
       <NextSeo
         title="Terms of Service – Pippin"
         description="Terms of Service for the Pippin journal app. Your access to and use of the Service is conditioned upon your acceptance of and compliance with these Terms."
@@ -110,7 +108,7 @@ export default function Terms() {
       />
       <Navbar />
 
-      <main className="flex-grow p-5 md:p-6 pb-24">
+      <main className="grow p-5 md:p-6 pb-24">
         <div className="max-w-3xl mx-auto">
           <article className="prose max-w-none prose-h1:text-4xl prose-h1:font-bold prose-h1:mb-6 prose-h1:mt-0 prose-h2:text-2xl prose-h2:font-semibold prose-h2:mb-4 prose-h2:mt-10 prose-h3:text-xl prose-h3:font-semibold prose-h3:mb-2 prose-h3:mt-8 prose-p:text-lg prose-p:leading-relaxed prose-p:mb-4 prose-a:text-[#6A8A69] prose-a:underline prose-a:font-medium prose-strong:font-bold prose-ul:pl-6 prose-li:mb-2 prose-li:marker:text-[#B6A16B] prose-headings:font-serif prose-headings:text-[#2D2A26] prose-p:text-[#4B463E]">
             <Markdown

@@ -72,9 +72,7 @@ export default function SupportPage() {
   }
 
   return (
-    <div
-      className={`min-h-screen bg-linear-to-b from-[#F8F7F4] to-[#E9E6DF] text-[#2D2A26] flex flex-col`}
-    >
+    <div className="min-h-screen bg-base-100 text-base-content flex flex-col">
       <NextSeo
         title="Support & Feedback – Pippin"
         description="Have feedback or questions about Pippin? We'd love to hear from you. Send us a message and we'll get back to you soon."
@@ -120,7 +118,7 @@ export default function SupportPage() {
             alt="Support and Feedback"
             className="mx-auto mb-6 rounded-lg"
           />
-          <p className="text-lg text-[#6B665B]">
+          <p className="text-lg text-base-content/60">
             Have feedback, questions, or found a bug? Send us a message and
             we'll get back to you as soon as we can.
           </p>
@@ -129,28 +127,28 @@ export default function SupportPage() {
         {/* Form Section */}
         <section className="w-full max-w-2xl">
           {success ? (
-            <div className="bg-white/80 rounded-3xl shadow-lg p-8 md:p-10 text-center">
+            <div className="bg-base-200 rounded-3xl shadow-lg p-8 md:p-10 text-center">
               <div className="mb-4">
                 <span className="text-5xl">✨</span>
               </div>
               <h2 className="text-2xl font-bold mb-2">Thank you!</h2>
-              <p className="text-[#6B665B] mb-4">
+              <p className="text-base-content/60 mb-4">
                 We appreciate your feedback and will review it soon. We'll be in
                 touch if needed.
               </p>
               <button
                 onClick={() => setSuccess(false)}
-                className="text-[#B6A16B] hover:text-[#A08B5A] font-semibold transition-colors"
+                className="text-primary hover:text-primary/80 font-semibold transition-colors"
               >
                 Send another message →
               </button>
             </div>
           ) : (
-            <div className="bg-white/80 rounded-3xl shadow-lg p-8 md:p-10">
+            <div className="bg-base-200 rounded-3xl shadow-lg p-8 md:p-10">
               <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
                 {/* Name Field */}
                 <div>
-                  <label className="block text-sm font-semibold mb-2 text-[#2D2A26]">
+                  <label className="block text-sm font-semibold mb-2 text-base-content">
                     Name
                   </label>
                   <input
@@ -160,14 +158,14 @@ export default function SupportPage() {
                     value={form.name}
                     onChange={handleChange}
                     placeholder="Your name"
-                    className="w-full px-4 py-3 rounded-xl border border-[#E9E6DF] bg-[#F8F7F4] focus:outline-none focus:ring-2 focus:ring-[#B6A16B] text-[#2D2A26] placeholder-[#9A9390]"
+                    className="w-full px-4 py-3 rounded-xl border border-base-300 bg-base-100 focus:outline-none focus:ring-2 focus:ring-primary text-base-content placeholder-base-content/40"
                     disabled={loading}
                   />
                 </div>
 
                 {/* Email Field */}
                 <div>
-                  <label className="block text-sm font-semibold mb-2 text-[#2D2A26]">
+                  <label className="block text-sm font-semibold mb-2 text-base-content">
                     Email
                   </label>
                   <input
@@ -177,14 +175,14 @@ export default function SupportPage() {
                     value={form.email}
                     onChange={handleChange}
                     placeholder="your@email.com"
-                    className="w-full px-4 py-3 rounded-xl border border-[#E9E6DF] bg-[#F8F7F4] focus:outline-none focus:ring-2 focus:ring-[#B6A16B] text-[#2D2A26] placeholder-[#9A9390]"
+                    className="w-full px-4 py-3 rounded-xl border border-base-300 bg-base-100 focus:outline-none focus:ring-2 focus:ring-primary text-base-content placeholder-base-content/40"
                     disabled={loading}
                   />
                 </div>
 
                 {/* Message Field */}
                 <div>
-                  <label className="block text-sm font-semibold mb-2 text-[#2D2A26]">
+                  <label className="block text-sm font-semibold mb-2 text-base-content">
                     Message
                   </label>
                   <textarea
@@ -194,14 +192,14 @@ export default function SupportPage() {
                     onChange={handleChange}
                     placeholder="Tell us what's on your mind..."
                     rows={6}
-                    className="w-full px-4 py-3 rounded-xl border border-[#E9E6DF] bg-[#F8F7F4] focus:outline-none focus:ring-2 focus:ring-[#B6A16B] text-[#2D2A26] placeholder-[#9A9390] resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-base-300 bg-base-100 focus:outline-none focus:ring-2 focus:ring-primary text-base-content placeholder-base-content/40 resize-none"
                     disabled={loading}
                   />
                 </div>
 
                 {/* Error Message */}
                 {error && (
-                  <div className="bg-red-50 border border-red-200 rounded-xl p-3 text-red-700 text-sm">
+                  <div className="bg-error/10 border border-error rounded-xl p-3 text-error text-sm">
                     {error}
                   </div>
                 )}
@@ -209,7 +207,7 @@ export default function SupportPage() {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="bg-[#B6A16B] hover:bg-[#A08B5A] text-white px-6 py-3 rounded-xl font-semibold transition-colors duration-200 shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="btn btn-primary shadow-md disabled:opacity-50"
                   disabled={loading}
                 >
                   {loading ? "Sending..." : "Send Message"}
@@ -221,7 +219,7 @@ export default function SupportPage() {
 
         {/* Additional Info */}
         <section className="w-full max-w-2xl mt-12 text-center">
-          <p className="text-[#6B665B] text-sm">
+          <p className="text-base-content/60 text-sm">
             We typically respond within 24-48 hours. Thank you for your
             patience!
           </p>
@@ -229,13 +227,13 @@ export default function SupportPage() {
       </main>
 
       {/* FAQ Section */}
-      <section className="w-full bg-white/40 py-16 md:py-24 px-4">
+      <section className="w-full bg-base-200 py-16 md:py-24 px-4">
         <div className="flex flex-col items-center">
           <div className="w-full max-w-2xl mb-8 text-center">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
               Frequently Asked Questions
             </h2>
-            <p className="text-lg text-[#6B665B]">
+            <p className="text-lg text-base-content/60">
               Find answers to common questions about Pippin
             </p>
           </div>

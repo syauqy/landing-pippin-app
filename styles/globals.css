@@ -1,42 +1,43 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: pastel --default;
+  themes: winter;
+  --color-base-100: oklch(0.98 0.01 120);
 }
 
 @plugin "daisyui/theme" {
-  name: "mytheme";
+  name: "pippin";
   default: true; /* set as default */
   prefersdark: false; /* set as default dark mode (prefers-color-scheme:dark) */
   color-scheme: light; /* color of browser-provided UI */
 
-  --color-base-100: oklch(0.98 0.01 120);
-  --color-base-200: oklch(0.96 0.02 120);
-  --color-base-300: oklch(0.93 0.03 120);
-  --color-base-content: oklch(0.3 0.08 150);
+  /* BASE: Pure White & Soft Greys */
+  --color-base-100: oklch(1 0 0); /* Pure White (Background) */
+  --color-base-200: oklch(0.97 0 0); /* Very Light Grey (Input fields/Cards) */
+  --color-base-300: oklch(0.92 0 0); /* Light Grey (Borders) */
+  --color-base-content: oklch(0.15 0 0); /* Near Black (Text - High Contrast) */
 
-  --color-primary: oklch(0.7 0.15 145);
-  --color-primary-content: oklch(0.2 0.06 145);
+  /* PRIMARY: Digital Sage (The Action Color) */
+  /* A vibrant, clean green that looks good on white */
+  --color-primary: oklch(0.65 0.16 150);
+  --color-primary-content: oklch(1 0 0); /* White Text on Buttons */
 
-  --color-secondary: oklch(0.85 0.08 135);
-  --color-secondary-content: oklch(0.3 0.08 135);
+  /* SECONDARY: Soft Slate (For secondary actions) */
+  --color-secondary: oklch(0.3 0.05 260);
+  --color-secondary-content: oklch(1 0 0);
 
-  --color-accent: oklch(0.8 0.12 110);
-  --color-accent-content: oklch(0.3 0.07 110);
+  /* ACCENT: Calm Blue (For "Unlock" moments) */
+  --color-accent: oklch(0.7 0.15 220);
+  --color-accent-content: oklch(1 0 0);
 
-  --color-neutral: oklch(0.55 0.05 150);
-  --color-neutral-content: oklch(0.98 0.01 120);
+  /* NEUTRAL: Mid-Grey (Subtext) */
+  --color-neutral: oklch(0.5 0 0);
+  --color-neutral-content: oklch(1 0 0);
 
-  --color-info: oklch(0.7 0.15 225);
-  --color-info-content: oklch(0.2 0.06 225);
-
-  --color-success: oklch(0.75 0.15 150);
-  --color-success-content: oklch(0.2 0.05 150);
-
-  --color-warning: oklch(0.8 0.16 90);
-  --color-warning-content: oklch(0.3 0.08 90);
-
-  --color-error: oklch(0.7 0.2 25);
-  --color-error-content: oklch(0.98 0.01 25);
+  /* FUNCTIONAL COLORS (Clean & Bright) */
+  --color-info: oklch(0.7 0.15 240);
+  --color-success: oklch(0.75 0.18 150);
+  --color-warning: oklch(0.85 0.15 85);
+  --color-error: oklch(0.65 0.2 25);
 
   /* border radius */
   --radius-selector: 2rem;

@@ -73,9 +73,7 @@ export default function Privacy() {
   }, []);
 
   return (
-    <div
-      className={`min-h-screen flex flex-col bg-gradient-to-b from-[#F8F7F4] to-[#E9E6DF] text-[#2D2A26] relative`}
-    >
+    <div className="min-h-screen flex flex-col bg-base-100 text-base-content relative">
       <NextSeo
         title="Privacy Policy – Pippin"
         description="Privacy Policy for the Pippin journal app. We are committed to protecting your personal information and your right to privacy."

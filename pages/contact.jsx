@@ -1,9 +1,13 @@
 import { useState } from "react";
-import Head from "next/head";
 import { NextSeo } from "next-seo";
 import { Navbar } from "@/components/layouts/navbar";
 import { Footer } from "@/components/layouts/footer";
-import { WaitlistForm } from "@/components/WaitlistForm";
+import { Plus_Jakarta_Sans } from "next/font/google";
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  weight: "800",
+  subsets: ["latin"],
+});
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: "", email: "", comment: "" });
@@ -27,6 +31,8 @@ export default function ContactPage() {
       });
       if (res.ok) {
         setSuccess(true);
+        setForm({ name: "", email: "", comment: "" });
+        setTimeout(() => setSuccess(false), 5000);
       } else {
         const data = await res.json();
         setError(data.error || "Something went wrong.");
@@ -38,7 +44,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-base-100">
+    <div className="min-h-screen bg-base-100 text-base-content flex flex-col">
       <NextSeo
         title="Contact & Support – Pippin"
         description="Have feedback or questions about Pippin? We'd love to hear from you. Send us a message and we'll get back to you soon."
@@ -62,94 +68,95 @@ export default function ContactPage() {
         additionalMetaTags={[
           {
             name: "keywords",
-            content:
-              "weton calculator, javanese astrology, horoscope, birth date calculator, relationship compatibility, daily reading, self discovery, primbon jawa, astrology",
+            content: "pippin, contact, support, feedback, help, journal, app",
           },
           {
             name: "application-name",
-            content: "Wetonscope",
+            content: "Pippin",
           },
         ]}
       />
-      <Navbar page={"contact"} />
-      <div className="max-w-lg mx-auto p-5 md:p-8 mt-20">
-        <h1 className="text-3xl font-bold mb-6 text-center">
-          Submit a Request or Feedback
-        </h1>
-        {success ? (
-          <div className="text-center py-6">
-            <div className="text-2xl font-semibold mb-2">
-              Thank you for your feedback!
+      <Navbar />
+      <main className="flex-1 flex flex-col items-center justify-center px-4 py-16 md:py-24">
+        <div className="max-w-lg mx-auto w-full">
+          <h1 className="text-3xl font-bold mb-6 text-center">
+            Submit a Request or Feedback
+          </h1>
+          {success ? (
+            <div className="text-center py-6 bg-base-200 rounded-3xl shadow-lg p-8">
+              <div className="text-2xl font-semibold mb-2">
+                ✨ Thank you for your feedback!
+              </div>
+              <div className="text-base-content/60">
+                We appreciate your input and will review it soon.
+              </div>
             </div>
-            <div className="text-gray-600">
-              We appreciate your input and will review it soon. 🙏
+          ) : (
+            <div className="bg-base-200 rounded-3xl shadow-lg p-8">
+              <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+                <div>
+                  <label className="block text-sm font-semibold mb-2 text-base-content">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder="Your name"
+                    className="w-full px-4 py-3 rounded-xl border border-base-300 bg-base-100 focus:outline-none focus:ring-2 focus:ring-primary text-base-content placeholder-base-content/40"
+                    disabled={loading}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold mb-2 text-base-content">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="your@email.com"
+                    className="w-full px-4 py-3 rounded-xl border border-base-300 bg-base-100 focus:outline-none focus:ring-2 focus:ring-primary text-base-content placeholder-base-content/40"
+                    disabled={loading}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold mb-2 text-base-content">
+                    Message
+                  </label>
+                  <textarea
+                    name="comment"
+                    required
+                    value={form.comment}
+                    onChange={handleChange}
+                    placeholder="Your feedback or comment"
+                    rows={5}
+                    className="w-full px-4 py-3 rounded-xl border border-base-300 bg-base-100 focus:outline-none focus:ring-2 focus:ring-primary text-base-content placeholder-base-content/40 resize-none"
+                    disabled={loading}
+                  />
+                </div>
+                {error && (
+                  <div className="bg-error/10 border border-error rounded-xl p-3 text-error text-sm">
+                    {error}
+                  </div>
+                )}
+                <button
+                  type="submit"
+                  className="btn btn-primary disabled:opacity-50"
+                  disabled={loading}
+                >
+                  {loading ? "Submitting..." : "Submit Feedback"}
+                </button>
+              </form>
             </div>
-          </div>
-        ) : (
-          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="name"
-              required
-              value={form.name}
-              onChange={handleChange}
-              placeholder="Your Name"
-              className="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-batik-black"
-              disabled={loading}
-            />
-            <input
-              type="email"
-              name="email"
-              required
-              value={form.email}
-              onChange={handleChange}
-              placeholder="Your Email"
-              className="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-batik-black"
-              disabled={loading}
-            />
-            <textarea
-              name="comment"
-              required
-              value={form.comment}
-              onChange={handleChange}
-              placeholder="Your Feedback or Comment"
-              rows={5}
-              className="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-batik-black"
-              disabled={loading}
-            />
-            <button
-              type="submit"
-              className="bg-batik-black text-white px-6 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-colors"
-              disabled={loading}
-            >
-              {loading ? "Submitting..." : "Submit Feedback"}
-            </button>
-            {error && <div className="text-red-500 mt-2 text-sm">{error}</div>}
-          </form>
-        )}
-      </div>
-      <section className="py-20 bg-linear-to-b from-white to-batik">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-6">
-            Ready to Discover Your True Self?
-          </h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Your journey to clarity, purpose, and deeper self-understanding is
-            just a tap away. Download Wetonscope and start living a more aligned
-            life today.
-          </p>
-          <div className="flex flex-col gap-3 justify-center lg:justify-start mt-4">
-            <div className="text-xs md:text-sm text-gray-500 w-2/3 justify-center lg:justify-start mx-auto">
-              Wetonscope is coming soon. Join our waitlist to get exclusive
-              early access and a special founder's gift on launch day.
-            </div>
-            <WaitlistForm />
-          </div>
+          )}
         </div>
-      </section>
-
-      {/* Footer */}
-      <Footer bg={"bg-batik"} />
+      </main>
+      <Footer />
     </div>
   );
 }

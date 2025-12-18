@@ -10,11 +10,9 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export default function NotFoundPage() {
   return (
-    <div
-      className={`min-h-screen flex flex-col bg-gradient-to-b from-[#F8F7F4] to-[#E9E6DF] text-[#2D2A26] ${plusJakartaSans.className}`}
-    >
+    <div className="min-h-screen flex flex-col bg-base-100 text-base-content">
       <Navbar />
-      <div className="flex flex-col items-center justify-center flex-grow py-16 px-5">
+      <div className="flex flex-col items-center justify-center grow py-16 px-5">
         <div className="bg-white/80 rounded-3xl shadow-lg p-10 flex flex-col items-center max-w-md w-full">
           <img
             src="/illustrations/pippin-onsen-300.png"
@@ -22,18 +20,15 @@ export default function NotFoundPage() {
             className="w-full mb-6 rounded-2xl drop-shadow object-contain"
           />
           <h1 className="text-6xl font-bold mb-2 tracking-tight">404</h1>
-          <h2 className="text-2xl font-semibold mb-4 text-[#6B665B]">
+          <h2 className="text-2xl font-semibold mb-4 text-base-content/60">
             Oops! Page not found
           </h2>
-          <p className="text-[#6B665B] text-center mb-8">
+          <p className="text-base-content/60 text-center mb-8">
             Looks like you wandered off the path.
             <br />
             Let’s get you back to a calmer mind.
           </p>
-          <Link
-            href="/"
-            className="bg-[#B6A16B] hover:bg-[#A08B5A] text-white rounded-xl px-6 py-2 font-semibold transition-colors duration-200 shadow"
-          >
+          <Link href="/" className="btn btn-primary">
             Back to Home
           </Link>
         </div>
