@@ -192,7 +192,7 @@ export default function PippinHomePage() {
                 <img
                   src="/mockups/pippin_mockup_3.webp"
                   alt="Watch it bloom"
-                  className="w-2/3 max-w-xs mt-4 object-cover object-top shadow-2xl"
+                  className="w-2/3 max-w-xs object-cover object-center"
                 />
               </div>
               <h3 className="text-xl font-bold mb-2">Watch it bloom</h3>
@@ -238,7 +238,7 @@ export default function PippinHomePage() {
                 <img
                   src="/mockups/pippin_mockup_5.webp"
                   alt="Gentle insights"
-                  className="w-2/3 max-w-xs mt-4 object-cover object-top shadow-2xl"
+                  className="w-2/3 max-w-xs mb-4 object-cover object-bottom"
                 />
               </div>
               <h3 className="text-xl font-bold mb-2">Grow at your own pace</h3>
