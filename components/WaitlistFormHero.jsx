@@ -12,31 +12,18 @@ export default function WaitlistForm() {
     setError("");
 
     try {
-      const airtablePayload = {
-        fields: {
-          email: email,
-        },
-      };
-
-      const res = await fetch(
-        `https://api.airtable.com/v0/${process.env.NEXT_PUBLIC_AIRTABLE_BASE_ID}/waitlist`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_AIRTABLE_API_KEY}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(airtablePayload),
-        }
-      );
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
 
       if (res.ok) {
         setSuccess(true);
         setEmail("");
-        // setTimeout(() => setSuccess(false), 3000);
       } else {
         const data = await res.json();
-        setError(data.error?.message || "Something went wrong.");
+        setError(data.error || "Something went wrong.");
       }
     } catch (err) {
       setError("Network error. Please try again.");

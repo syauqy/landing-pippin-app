@@ -38,23 +38,54 @@ const nextConfig = {
   }),
 
   ...(!process.env.IS_NATIVE && {
-    // Allows mobile apps to use NextJS API
+    // Security headers and CORS configuration
     async headers() {
       return [
+        // Security headers for all routes
+        {
+          source: "/:path*",
+          headers: [
+            {
+              key: "X-Content-Type-Options",
+              value: "nosniff",
+            },
+            {
+              key: "X-Frame-Options",
+              value: "SAMEORIGIN",
+            },
+            {
+              key: "X-XSS-Protection",
+              value: "1; mode=block",
+            },
+            {
+              key: "Referrer-Policy",
+              value: "strict-origin-when-cross-origin",
+            },
+            {
+              key: "Strict-Transport-Security",
+              value: "max-age=31536000; includeSubDomains; preload",
+            },
+          ],
+        },
+        // API-specific CORS headers
         {
           source: "/api/:path*",
           headers: [
             {
               key: "Access-Control-Allow-Origin",
-              value: "*",
+              value: process.env.ALLOWED_CORS_ORIGIN || "https://getpippin.app",
             },
             {
               key: "Access-Control-Allow-Methods",
-              value: "GET, POST, PUT, DELETE, OPTIONS",
+              value: "POST, OPTIONS",
             },
             {
               key: "Access-Control-Allow-Headers",
-              value: "X-CSRF-Token, Content-Type, Authorization",
+              value: "Content-Type",
+            },
+            {
+              key: "Access-Control-Max-Age",
+              value: "3600",
             },
           ],
         },

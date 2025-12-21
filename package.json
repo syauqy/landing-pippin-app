@@ -37,7 +37,9 @@
     "daisyui": "^5.0.35",
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
+    "next-rate-limit": "^0.0.3",
     "raw-loader": "^4.0.2",
-    "tailwindcss": "^4"
+    "tailwindcss": "^4",
+    "xss": "^1.0.15"
   }
 }

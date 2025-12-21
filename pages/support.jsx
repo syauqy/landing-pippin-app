@@ -35,27 +35,15 @@ export default function SupportPage() {
     setLoading(true);
     setError("");
     try {
-      const recordId = generateId();
-      const airtablePayload = {
-        fields: {
-          id: recordId,
+      const res = await fetch("/api/support", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           name: form.name,
           email: form.email,
-          feedback: form.message,
-        },
-      };
-
-      const res = await fetch(
-        `https://api.airtable.com/v0/${process.env.NEXT_PUBLIC_AIRTABLE_BASE_ID}/feedbacks`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_AIRTABLE_API_KEY}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(airtablePayload),
-        }
-      );
+          comment: form.message,
+        }),
+      });
 
       if (res.ok) {
         setSuccess(true);
@@ -63,7 +51,7 @@ export default function SupportPage() {
         setTimeout(() => setSuccess(false), 5000);
       } else {
         const data = await res.json();
-        setError(data.error?.message || "Something went wrong.");
+        setError(data.error || "Something went wrong.");
       }
     } catch (err) {
       setError("Network error. Please try again.");
