@@ -45,3 +45,17 @@ yarn-error.log*
 next-env.d.ts
 
 resources/ios/**/*
+
+# Audit & implementation docs (private)
+/AUDIT_REPORT.md
+/ACTION_PLAN.md
+/AUDIT_SUMMARY.md
+/IMPLEMENTATION_GUIDE.md
+/QUICK_REFERENCE.md
+/AUDIT_INDEX.md
+/CRITICAL_FIXES_CHECKLIST.md
+/FIXES_APPLIED.md
+/HIGH_PRIORITY_COMPLETE.md
+
+# ignore any audit-prefixed markdowns
+/AUDIT_*.md
