@@ -69,18 +69,18 @@ export default function PippinHomePage() {
               feel loud. Write it out, step away, and come back lighter.
             </p>
           </div>
-          <div className="mt-8 flex justify-center mx-auto">
+          {/* <div className="mt-8 flex justify-center mx-auto">
             <WaitlistFormHero />
-          </div>
-          {/* <div className="flex flex-col items-center gap-2">
+          </div> */}
+          <div className="flex flex-col items-center gap-2">
             <a
-              href="https://apps.apple.com/us/app/bill-organizer-matcharge/id6752604627?itscg=30200&itsct=apps_box_badge&mttnsubad=6752604627"
+              href="https://apps.apple.com/us/app/pippin-overthinking-journal/id6755423327"
               className="mt-4 inline-block"
               target="_blank"
               rel="noopener noreferrer"
             >
               <img
-                src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us?releaseDate=1761091200"
+                src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us"
                 alt="Download on the App Store"
                 className="w-[246px] h-15 align-vertical-middle object-contain"
               />
@@ -88,7 +88,7 @@ export default function PippinHomePage() {
             <span className="text-slate-500 text-sm">
               No credit card required
             </span>
-          </div> */}
+          </div>
         </section>
 
         {/* How It Works Section */}
