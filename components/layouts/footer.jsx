@@ -56,6 +56,26 @@ export function Footer({ bg }) {
             >
               Terms of Service
             </Link>
+            <div className="mt-3 text-sm flex flex-col items-center md:items-start md:gap-2">
+              From the maker of{" "}
+              <Link
+                href="https://www.matcharge.app"
+                className={clsx(
+                  "text-lg font-bold text-base-content flex items-center gap-2 justify-center md:justify-start py-2"
+                )}
+                aria-label="Matcharge Home"
+              >
+                <img
+                  src="/logos/matcharge-icon.jpg"
+                  alt="Matcharge Mascot"
+                  className="w-8 h-8 md:w-12 md:h-12 inline-block align-middle shadow-2xl rounded-xl md:rounded-2xl overflow-clip object-cover"
+                />
+                Matcharge
+              </Link>
+              <p className="mb-4 text-sm max-w-sm font-light text-center">
+                Calm way to track your subscriptions.
+              </p>
+            </div>
             <a
               href="https://www.tiktok.com/@the_overthinkerclub"
               target="_blank"
