@@ -91,4 +91,4 @@ We may terminate or suspend your account and bar access to the Service immediate
 
 ## 14. Contact Us
 
-If you have any questions about these Terms, please contact us at [hey@getpippin.app](mailto:hey@getpippin.app).
+If you have any questions about these Terms, please contact us at [hey@syauqy.dev](mailto:hey@syauqy.dev).

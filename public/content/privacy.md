@@ -78,4 +78,4 @@ We may update our Privacy Policy from time to time. We will notify you of any ch
 
 ## 10. Contact Us
 
-If you have questions or comments about this policy, you may email us at [hey@getpippin.app](mailto:hey@getpippin.app).
+If you have questions or comments about this policy, you may email us at [hey@syauqy.dev](mailto:hey@syauqy.dev).
