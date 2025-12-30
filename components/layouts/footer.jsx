@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Caveat } from "next/font/google";
 import clsx from "clsx";
+import { BadgeMarquee } from "../BadgeMarquee";
 
 const caveat = Caveat({
   weight: "700",
@@ -95,40 +96,8 @@ export function Footer({ bg }) {
             </a> */}
           </div>
         </div>
-        <div className="mt-5 flex justify-center items-center md:justify-start gap-2">
-          <a
-            href="https://fazier.com/launches/getpippin.app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=light"
-              // width={120}
-              alt="Fazier badge"
-            />
-          </a>
-          <a
-            href="https://turbo0.com/item/pippin-overthinking-journal"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="https://img.turbo0.com/badge-listed-light.svg"
-              alt="Listed on Turbo0"
-              style={{ height: "45px", width: "auto" }}
-            />
-          </a>
-          <a
-            href="https://findly.tools/pippin-overthinking-journal?utm_source=pippin-overthinking-journal"
-            target="_blank"
-          >
-            <img
-              src="https://findly.tools/badges/findly-tools-badge-light.svg"
-              alt="Featured on findly.tools"
-              width="150"
-            />
-          </a>
-        </div>
+        {/* Directories Badge Section - Marquee */}
+        <BadgeMarquee />
       </div>
     </footer>
   );
