@@ -23,6 +23,11 @@ const badges = [
     alt: "Featured on LaunchIgniter",
   },
   {
+    href: "https://toolfame.com/item/pippin-overthinking-journal",
+    src: "https://toolfame.com/badge-light.svg",
+    alt: "Featured on toolfame.com",
+  },
+  {
     href: "https://twelve.tools",
     src: "https://twelve.tools/badge1-white.svg",
     alt: "Featured on Twelve Tools",
