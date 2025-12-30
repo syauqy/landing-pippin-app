@@ -28,6 +28,21 @@ const badges = [
     alt: "Featured on toolfame.com",
   },
   {
+    href: "https://earlyhunt.com",
+    src: "https://earlyhunt.com/badges/earlyhunt-badge-light.svg",
+    alt: "Featured on EarlyHunt",
+  },
+  {
+    href: "https://indiehunt.io",
+    src: "https://indiehunt.io/badges/indiehunt-badge-light.svg",
+    alt: "Featured on IndieHunt",
+  },
+  {
+    href: "https://startupfa.me/s/pippin?utm_source=getpippin.app",
+    src: "https://startupfa.me/badges/featured-badge.webp",
+    alt: "Pippin  - Featured on Startup Fame",
+  },
+  {
     href: "https://twelve.tools",
     src: "https://twelve.tools/badge1-white.svg",
     alt: "Featured on Twelve Tools",
