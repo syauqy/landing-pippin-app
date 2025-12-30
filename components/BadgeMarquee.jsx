@@ -39,7 +39,7 @@ const badges = [
   },
   {
     href: "https://startupfa.me/s/pippin?utm_source=getpippin.app",
-    src: "https://startupfa.me/badges/featured-badge.webp",
+    src: "https://startupfa.me/badges/featured/default.webp",
     alt: "Pippin  - Featured on Startup Fame",
   },
   {
