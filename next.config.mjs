@@ -38,6 +38,24 @@ const nextConfig = {
   }),
 
   ...(!process.env.IS_NATIVE && {
+    // Redirects configuration
+    async redirects() {
+      return [
+        {
+          source: "/deals",
+          destination:
+            "https://apps.apple.com/redeem?ctx=offercodes&id=6755423327&code=PIPPIN2025HOLIDAYMONTHLY",
+          permanent: false, // Use true for 301 permanent redirects
+        },
+        // Add more redirects here:
+        // {
+        //   source: '/promo',
+        //   destination: 'https://example.com/promo',
+        //   permanent: false,
+        // },
+      ];
+    },
+
     // Security headers and CORS configuration
     async headers() {
       return [
