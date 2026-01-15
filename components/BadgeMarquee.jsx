@@ -67,6 +67,26 @@ const badges = [
     src: "https://dofollow.tools/badge/badge_light.svg",
     alt: "Featured on Dofollow.Tools",
   },
+  {
+    href: "https://www.showmysites.com",
+    src: "https://www.showmysites.com/static/backlink/blue_border.webp",
+    alt: "Featured on ShowMySites",
+  },
+  {
+    href: "https://www.activesearchresults.com",
+    src: "",
+    alt: "",
+  },
+  {
+    href: "https://ufind.best/products/pippin-overthinking-journal?utm_source=ufind.best",
+    src: "https://ufind.best/badges/ufind-best-badge-light.svg",
+    alt: "Featured on ufind.best",
+  },
+  {
+    href: "https://goodaitools.com",
+    src: "https://goodaitools.com/assets/images/badge.png",
+    alt: "Featured on goodaitools.com",
+  },
 ];
 
 export function BadgeMarquee() {
