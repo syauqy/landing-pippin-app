@@ -34,14 +34,32 @@ export function Footer({ bg, showBadgeMarquee = false }) {
               Minimalist journal for overthinkers. Quiet your mind, lock it
               away, and let it go.
             </p>
+            <p>
+              Made with ❤️ by{" "}
+              <a
+                className="font-semibold text-slate-500 hover:text-blue-500 transition-colors"
+                href="https://www.syauqy.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Syauqy
+              </a>
+            </p>
             <p className="text-base-content">
               © 2025 Pippin. All rights reserved.
             </p>
           </div>
           <div className="w-full md:w-fit order-first text-center md:text-left flex flex-col gap-2 mb-6 md:mb-0 md:order-0">
             <Link
+              href="/blog/night-overthinking"
+              className="font-semibold text-lg text-base-content/70 hover:text-primary/80 transition-colors flex items-center justify-center md:justify-start gap-2"
+            >
+              <span>💭</span>
+              <span>Overthinking at Night Guide</span>
+            </Link>
+            <Link
               href="/blog"
-              className="font-semibold text-lg text-base-content/70 hover:text-primary"
+              className="font-semibold text-lg text-base-content/70 hover:text-primary transition-colors"
             >
               Blog
             </Link>
@@ -77,11 +95,13 @@ export function Footer({ bg, showBadgeMarquee = false }) {
                   alt="Matcharge Mascot"
                   className="w-8 h-8 md:w-12 md:h-12 inline-block align-middle shadow-2xl rounded-xl md:rounded-2xl overflow-clip object-cover"
                 />
-                Matcharge
+                <div className="flex flex-col">
+                  <p className="leading-5">Matcharge</p>
+                  <p className=" text-xs max-w-sm font-light text-center">
+                    Calm way to track your subscriptions
+                  </p>
+                </div>
               </Link>
-              <p className="mb-4 text-sm max-w-sm font-light text-center">
-                Calm way to track your subscriptions.
-              </p>
             </div>
             <a
               href="https://www.tiktok.com/@the_overthinkerclub"

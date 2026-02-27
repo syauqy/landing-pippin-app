@@ -19,27 +19,30 @@ export default function BlogIndexPage({ posts, tags }) {
 
   // Filter posts based on search query and selected tag
   const filteredPosts = useMemo(() => {
-    return posts.filter((post) => {
-      const matchesSearch =
-        searchQuery === "" ||
-        post.frontmatter.title
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        (post.frontmatter.description &&
-          post.frontmatter.description
+    return posts
+      .filter((post) => !post.isPillar) // Exclude pillar pages from regular grid
+      .filter((post) => {
+        const matchesSearch =
+          searchQuery === "" ||
+          post.frontmatter.title
             .toLowerCase()
-            .includes(searchQuery.toLowerCase())) ||
-        (post.frontmatter.tags &&
-          post.frontmatter.tags.some((tag) =>
-            tag.toLowerCase().includes(searchQuery.toLowerCase()),
-          ));
+            .includes(searchQuery.toLowerCase()) ||
+          (post.frontmatter.description &&
+            post.frontmatter.description
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase())) ||
+          (post.frontmatter.tags &&
+            post.frontmatter.tags.some((tag) =>
+              tag.toLowerCase().includes(searchQuery.toLowerCase()),
+            ));
 
-      const matchesTag =
-        selectedTag === null ||
-        (post.frontmatter.tags && post.frontmatter.tags.includes(selectedTag));
+        const matchesTag =
+          selectedTag === null ||
+          (post.frontmatter.tags &&
+            post.frontmatter.tags.includes(selectedTag));
 
-      return matchesSearch && matchesTag;
-    });
+        return matchesSearch && matchesTag;
+      });
   }, [posts, searchQuery, selectedTag]);
 
   return (
@@ -154,9 +157,114 @@ export default function BlogIndexPage({ posts, tags }) {
           </section>
         )}
 
+        {/* Featured Pillar Section */}
+        {!searchQuery && !selectedTag && (
+          <section className="w-full py-12 px-4 bg-linear-to-b from-primary/5 to-transparent">
+            <div className="max-w-6xl mx-auto">
+              <div className="flex items-center gap-3 mb-6">
+                <h2
+                  className={`${plusJakartaSans.className} text-3xl font-bold text-base-content`}
+                >
+                  Featured Guide
+                </h2>
+                <span className="badge badge-primary badge-lg">
+                  Comprehensive
+                </span>
+              </div>
+
+              {/* Featured Pillar Card */}
+              {posts.find((post) => post.isPillar) && (
+                <Link
+                  href={`/blog/${posts.find((post) => post.isPillar).cluster}`}
+                  className="group block card bg-base-100 hover:bg-base-200 transition-all duration-300 hover:shadow-2xl border-2 border-primary/20"
+                >
+                  <div className="card-body p-8 md:p-10">
+                    <div className="flex items-start gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 text-sm text-base-content/60 mb-4">
+                          <time
+                            dateTime={
+                              posts.find((post) => post.isPillar).frontmatter
+                                .date
+                            }
+                          >
+                            {format(
+                              new Date(
+                                posts.find((post) => post.isPillar).frontmatter
+                                  .date,
+                              ),
+                              "MMM d, yyyy",
+                            )}
+                          </time>
+                          <span>•</span>
+                          <span>
+                            {posts.find((post) => post.isPillar).readingTime}{" "}
+                            min read
+                          </span>
+                          <span>•</span>
+                          <span className="text-primary font-semibold">
+                            Pillar Article
+                          </span>
+                        </div>
+
+                        <h3
+                          className={`${plusJakartaSans.className} text-2xl md:text-3xl font-bold mb-4 text-base-content group-hover:text-primary transition-colors`}
+                        >
+                          {
+                            posts.find((post) => post.isPillar).frontmatter
+                              .title
+                          }
+                        </h3>
+
+                        {posts.find((post) => post.isPillar).frontmatter
+                          .description && (
+                          <p className="text-base md:text-lg text-base-content/70 mb-6 leading-relaxed">
+                            {
+                              posts.find((post) => post.isPillar).frontmatter
+                                .description
+                            }
+                          </p>
+                        )}
+
+                        <div className="flex items-center gap-3 text-primary font-semibold group-hover:gap-4 transition-all">
+                          <span>Read comprehensive guide</span>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                            stroke="currentColor"
+                            className="w-5 h-5"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+
+                      <div className="hidden md:block text-6xl opacity-20 group-hover:opacity-40 transition-opacity">
+                        📚
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              )}
+            </div>
+          </section>
+        )}
+
         {/* Blog Posts Grid */}
         <section className="w-full py-12 px-4">
           <div className="max-w-6xl mx-auto">
+            <h2
+              className={`${plusJakartaSans.className} text-3xl font-bold mb-8 text-base-content`}
+            >
+              {searchQuery || selectedTag ? "Search Results" : "All Articles"}
+            </h2>
+
             {filteredPosts.length === 0 ? (
               <div className="text-center py-16">
                 <div className="flex justify-center mb-4">

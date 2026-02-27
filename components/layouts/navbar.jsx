@@ -53,13 +53,21 @@ export function Navbar({ bg, page }) {
               Pippin
             </Link>
 
-            {/* Blog Link */}
-            <Link
-              href="/blog"
-              className="text-base md:text-lg font-semibold text-base-content/70 hover:text-primary transition-colors"
-            >
-              Blog
-            </Link>
+            {/* Navigation Links */}
+            <div className="flex items-center gap-4 md:gap-6">
+              <Link
+                href="/blog/night-overthinking"
+                className="hidden sm:block text-base md:text-lg font-semibold text-base-content/70 hover:text-primary transition-colors"
+              >
+                Overthinking Guide
+              </Link>
+              <Link
+                href="/blog"
+                className="text-base md:text-lg font-semibold text-base-content/70 hover:text-primary transition-colors"
+              >
+                Blog
+              </Link>
+            </div>
 
             {/* Desktop Menu */}
             {/* <div className="hidden md:flex items-center space-x-8">

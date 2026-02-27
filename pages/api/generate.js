@@ -139,6 +139,21 @@ export default async function handler(req, res) {
       console.warn("Title or description validation issues detected");
     }
 
+    // Step 7.5: Generate clusterMap update
+    console.log("Step 7.5: Generating clusterMap entry...");
+    const clusterMapEntry = generateClusterMapEntry(
+      keyword.slug,
+      article.title,
+      article.content,
+    );
+    const updatedClusterMap = await updateClusterMapContent(
+      clusterMapEntry,
+      keyword.slug,
+      process.env.GITHUB_TOKEN,
+      process.env.GITHUB_OWNER,
+      process.env.GITHUB_REPO,
+    );
+
     // If dry run, return preview without committing
     if (dryRun) {
       return res.status(200).json({
@@ -146,6 +161,7 @@ export default async function handler(req, res) {
         keyword,
         article,
         mdxContent,
+        clusterMapEntry,
         sanitization: sanitized.stats,
         injectedLinks,
         validation: {
@@ -155,11 +171,20 @@ export default async function handler(req, res) {
       });
     }
 
-    // Step 8: Commit to GitHub
+    // Step 8: Commit to GitHub (article + clusterMap update)
     console.log("Step 8: Committing to GitHub...");
-    const commitResult = await commitToGitHub(
-      keyword.slug,
-      mdxContent,
+    const commitResult = await commitFilesToGitHub(
+      [
+        {
+          path: `contents/blog/night-overthinking/${keyword.slug}.mdx`,
+          content: mdxContent,
+        },
+        {
+          path: "lib/clusterMap.js",
+          content: updatedClusterMap,
+        },
+      ],
+      `Add blog post: ${keyword.slug} (with clusterMap update)`,
       process.env.GITHUB_TOKEN,
       process.env.GITHUB_OWNER,
       process.env.GITHUB_REPO,
@@ -341,11 +366,133 @@ ${article.content}`;
 }
 
 /**
- * Commit MDX file to GitHub
+ * Extract H2 headers from markdown content to use as relevantSections
  */
-async function commitToGitHub(slug, content, token, owner, repo) {
-  // All generated articles go to night-overthinking cluster
-  const filePath = `contents/blog/night-overthinking/${slug}.mdx`;
+function extractH2Sections(content) {
+  const h2Regex = /^## (.+)$/gm;
+  const sections = [];
+  let match;
+
+  while ((match = h2Regex.exec(content)) !== null) {
+    sections.push(match[1].trim());
+  }
+
+  return sections.slice(0, 5); // Limit to first 5 sections
+}
+
+/**
+ * Generate anchor variations for internal linking
+ */
+function generateAnchorVariations(title, slug) {
+  // Create natural anchor text variations based on title
+  const baseAnchors = [title.toLowerCase(), slug.replace(/-/g, " ")];
+
+  // Generate semantic variations
+  const variations = [
+    ...new Set([
+      baseAnchors[0],
+      baseAnchors[1],
+      `${baseAnchors[1].split(" ").slice(0, 4).join(" ")}`,
+    ]),
+  ];
+
+  return variations.slice(0, 3); // Limit to 3 unique anchors
+}
+
+/**
+ * Generate clusterMap entry for new article
+ */
+function generateClusterMapEntry(slug, title, content) {
+  const anchors = generateAnchorVariations(title, slug);
+  const relevantSections = extractH2Sections(content);
+
+  return {
+    slug,
+    config: {
+      title,
+      url: `/blog/night-overthinking/${slug}`,
+      anchors,
+      relevantSections:
+        relevantSections.length > 0 ? relevantSections : ["Introduction"],
+    },
+  };
+}
+
+/**
+ * Fetch and update clusterMap.js content
+ */
+async function updateClusterMapContent(entry, slug, token, owner, repo) {
+  const apiBase = "https://api.github.com";
+  const filePath = "lib/clusterMap.js";
+
+  try {
+    // Fetch current clusterMap.js
+    const fileResponse = await fetch(
+      `${apiBase}/repos/${owner}/${repo}/contents/${filePath}`,
+      {
+        headers: {
+          Authorization: `token ${token}`,
+          Accept: "application/vnd.github.v3+json",
+        },
+      },
+    );
+
+    if (!fileResponse.ok) {
+      throw new Error("Failed to fetch clusterMap.js");
+    }
+
+    const fileData = await fileResponse.json();
+    const currentContent = Buffer.from(fileData.content, "base64").toString(
+      "utf-8",
+    );
+
+    // Find the insertion point (before the closing of articles object)
+    // Look for the last article entry in night-overthinking cluster
+    const articlesPattern =
+      /"night-overthinking"[\s\S]*?articles:\s*\{([\s\S]*?)\s*\},?\s*\}/;
+    const match = currentContent.match(articlesPattern);
+
+    if (!match) {
+      throw new Error("Could not find night-overthinking articles section");
+    }
+
+    // Build the new article entry
+    const indent = "      ";
+    const newEntry = `${indent}"${entry.slug}": {
+${indent}  title:
+${indent}    "${entry.config.title}",
+${indent}  url: "${entry.config.url}",
+${indent}  anchors: ${JSON.stringify(entry.config.anchors, null, 2).split("\n").join(`\n${indent}  `)},
+${indent}  relevantSections: ${JSON.stringify(entry.config.relevantSections, null, 2).split("\n").join(`\n${indent}  `)},
+${indent}},`;
+
+    // Find where to insert (after the last article, before the closing brace)
+    const insertPoint = match[0].lastIndexOf("      },");
+    if (insertPoint === -1) {
+      throw new Error("Could not find insertion point in clusterMap");
+    }
+
+    const beforeInsert = currentContent.substring(
+      0,
+      currentContent.indexOf(match[0]) + insertPoint + 8,
+    );
+    const afterInsert = currentContent.substring(
+      currentContent.indexOf(match[0]) + insertPoint + 8,
+    );
+
+    const updatedContent = beforeInsert + "\n" + newEntry + afterInsert;
+
+    return updatedContent;
+  } catch (error) {
+    console.error("Error updating clusterMap content:", error);
+    throw error;
+  }
+}
+
+/**
+ * Commit multiple files to GitHub in a single commit
+ */
+async function commitFilesToGitHub(files, commitMessage, token, owner, repo) {
   const apiBase = "https://api.github.com";
 
   try {
@@ -385,30 +532,37 @@ async function commitToGitHub(slug, content, token, owner, repo) {
     const commitData = await commitResponse.json();
     const baseTreeSha = commitData.tree.sha;
 
-    // Step 3: Create blob for the file
-    const blobResponse = await fetch(
-      `${apiBase}/repos/${owner}/${repo}/git/blobs`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `token ${token}`,
-          Accept: "application/vnd.github.v3+json",
-          "Content-Type": "application/json",
+    // Step 3: Create blobs for all files
+    const blobShas = [];
+    for (const file of files) {
+      const blobResponse = await fetch(
+        `${apiBase}/repos/${owner}/${repo}/git/blobs`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `token ${token}`,
+            Accept: "application/vnd.github.v3+json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            content: Buffer.from(file.content).toString("base64"),
+            encoding: "base64",
+          }),
         },
-        body: JSON.stringify({
-          content: Buffer.from(content).toString("base64"),
-          encoding: "base64",
-        }),
-      },
-    );
+      );
 
-    if (!blobResponse.ok) {
-      throw new Error("Failed to create blob");
+      if (!blobResponse.ok) {
+        throw new Error(`Failed to create blob for ${file.path}`);
+      }
+
+      const blobData = await blobResponse.json();
+      blobShas.push({
+        path: file.path,
+        sha: blobData.sha,
+      });
     }
 
-    const blobData = await blobResponse.json();
-
-    // Step 4: Create new tree
+    // Step 4: Create new tree with all files
     const treeResponse = await fetch(
       `${apiBase}/repos/${owner}/${repo}/git/trees`,
       {
@@ -420,14 +574,12 @@ async function commitToGitHub(slug, content, token, owner, repo) {
         },
         body: JSON.stringify({
           base_tree: baseTreeSha,
-          tree: [
-            {
-              path: filePath,
-              mode: "100644",
-              type: "blob",
-              sha: blobData.sha,
-            },
-          ],
+          tree: blobShas.map((blob) => ({
+            path: blob.path,
+            mode: "100644",
+            type: "blob",
+            sha: blob.sha,
+          })),
         }),
       },
     );
@@ -449,7 +601,7 @@ async function commitToGitHub(slug, content, token, owner, repo) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          message: `Add blog post: ${slug}`,
+          message: commitMessage,
           tree: treeData.sha,
           parents: [latestCommitSha],
         }),
@@ -485,7 +637,7 @@ async function commitToGitHub(slug, content, token, owner, repo) {
     return {
       success: true,
       commitSha: newCommitData.sha,
-      filePath,
+      files: files.map((f) => f.path),
     };
   } catch (error) {
     console.error("GitHub commit error:", error);
