@@ -31,17 +31,17 @@ export function Navbar({ bg, page }) {
           "sticky top-0 z-40 transition-colors duration-200",
           hasScrolled
             ? "bg-base-100/80 backdrop-blur-md shadow-sm"
-            : "bg-base-100"
+            : "bg-base-100",
         )}
       >
         <div className="container mx-auto px-4">
-          <div className="flex justify-center items-center h-16">
+          <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link
               href="/"
               className={clsx(
                 "text-3xl md:text-4xl font-bold text-base-content flex items-center gap-2",
-                caveat.className
+                caveat.className,
               )}
               aria-label="Pippin Home"
             >
@@ -51,6 +51,14 @@ export function Navbar({ bg, page }) {
               className="w-8 h-8 md:w-12 md:h-12 inline-block align-middle rounded-2xl overflow-clip object-cover"
             /> */}
               Pippin
+            </Link>
+
+            {/* Blog Link */}
+            <Link
+              href="/blog"
+              className="text-base md:text-lg font-semibold text-base-content/70 hover:text-primary transition-colors"
+            >
+              Blog
             </Link>
 
             {/* Desktop Menu */}

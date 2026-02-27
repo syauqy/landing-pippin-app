@@ -9,7 +9,7 @@ const caveat = Caveat({
   subsets: ["latin"],
 });
 
-export function Footer({ bg }) {
+export function Footer({ bg, showBadgeMarquee = false }) {
   return (
     <footer className={clsx(bg, "py-12")}>
       <div className="container mx-auto px-4 xl:px-0">
@@ -19,7 +19,7 @@ export function Footer({ bg }) {
               href="/"
               className={clsx(
                 "text-4xl font-bold text-base-content flex items-center gap-2 justify-center md:justify-start",
-                caveat.className
+                caveat.className,
               )}
               aria-label="Pippin Home"
             >
@@ -39,6 +39,12 @@ export function Footer({ bg }) {
             </p>
           </div>
           <div className="w-full md:w-fit order-first text-center md:text-left flex flex-col gap-2 mb-6 md:mb-0 md:order-0">
+            <Link
+              href="/blog"
+              className="font-semibold text-lg text-base-content/70 hover:text-primary"
+            >
+              Blog
+            </Link>
             <Link
               href="/support"
               className="font-semibold text-lg text-base-content/70 hover:text-primary"
@@ -62,7 +68,7 @@ export function Footer({ bg }) {
               <Link
                 href="https://www.matcharge.app"
                 className={clsx(
-                  "text-lg font-bold text-base-content flex items-center gap-2 justify-center md:justify-start py-2"
+                  "text-lg font-bold text-base-content flex items-center gap-2 justify-center md:justify-start py-2",
                 )}
                 aria-label="Matcharge Home"
               >
@@ -97,7 +103,7 @@ export function Footer({ bg }) {
           </div>
         </div>
         {/* Directories Badge Section - Marquee */}
-        <BadgeMarquee />
+        {showBadgeMarquee && <BadgeMarquee />}
       </div>
     </footer>
   );

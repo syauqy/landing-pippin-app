@@ -87,6 +87,59 @@ const badges = [
     src: "https://goodaitools.com/assets/images/badge.png",
     alt: "Featured on goodaitools.com",
   },
+  //not yet
+  // {
+  //   href: "https://domainrank.app",
+  //   src: "https://domainrank.app/api/badge/matcharge.app",
+  //   alt: "matcharge.app Domain Rating",
+  // },
+  {
+    href: "https://verifieddr.com/website/getpippin-app",
+    src: "https://verifieddr.com/badge/getpippin-app.svg",
+    alt: "Verified DR - Verified Domain Rating for getpippin.app",
+  },
+  //not yet
+  {
+    href: "https://showmebest.ai",
+    src: "https://showmebest.ai/badge/feature-badge-white.webp",
+    alt: "Featured on ShowMeBestAI",
+  },
+  //not yet
+  {
+    href: "https://www.justsimple.tools",
+    src: "https://www.justsimple.tools/badge.svg",
+    alt: "Listed on JustSimple Tools",
+  },
+  {
+    href: "https://toolrain.com/item/pippin-overthinking-journal",
+    src: "https://toolrain.com/badges/badge-listed-light.svg",
+    alt: "Listed on ToolRain",
+  },
+  {
+    href: "https://startupslab.site",
+    src: "https://cdn.startupslab.site/site-images/badge-light.png",
+    alt: "Featured on StartupSlab",
+  },
+  {
+    href: "https://productfame.com",
+    src: "https://productfame.com/badges/featured-light.svg",
+    alt: "Featured on ProductFame",
+  },
+  {
+    href: "https://newtool.site/item/pippin-overthinking-journal",
+    src: "https://newtool.site/badges/newtool-light.svg",
+    alt: "Featured on NewTool.site",
+  },
+  {
+    href: "https://saastool.site/item/pippin-overthinking-journal",
+    src: "https://saastool.site/badges/saastool-light.svg",
+    alt: "Featured on SaaSTool.site",
+  },
+  {
+    href: "https://open-launch.com/projects/pippin-overthinking-journal",
+    src: "https://open-launch.com/api/badge/166126b4-da55-4a0b-bef9-d6b33e1c93fd/featured-light.svg",
+    alt: "Featured on Open-Launch",
+  },
 ];
 
 export function BadgeMarquee() {

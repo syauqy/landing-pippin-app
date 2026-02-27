@@ -289,7 +289,7 @@ export default function PippinHomePage() {
           />
         </div> */}
       </main>
-      <Footer />
+      <Footer showBadgeMarquee={true} />
     </div>
   );
 }

@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "airtable": "^0.12.2",
     "axios": "^1.10.0",
     "clsx": "^2.1.1",
@@ -20,6 +21,7 @@
     "markdown-to-jsx": "^7.7.13",
     "motion": "^12.23.12",
     "next": "15.5.9",
+    "next-mdx-remote": "^6.0.0",
     "next-seo": "^6.8.0",
     "next-sitemap": "^4.2.3",
     "nuqs": "^2.4.3",
@@ -27,6 +29,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.5.0",
+    "rehype-slug": "^6.0.0",
+    "remark-gfm": "^4.0.1",
     "sonner": "^2.0.3"
   },
   "devDependencies": {

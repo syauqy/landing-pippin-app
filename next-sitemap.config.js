@@ -14,7 +14,7 @@ module.exports = {
       },
     ],
   },
-  exclude: ["/server-sitemap.xml", "/test", "/blog", "/contact"], // Exclude server-side generated pages if any
+  exclude: ["/server-sitemap.xml", "/test", "/contact"], // Exclude server-side generated pages if any
   generateIndexSitemap: false,
   changefreq: "weekly",
   priority: 0.7,
@@ -28,19 +28,34 @@ module.exports = {
       lastmod: config.autoLastmod ? new Date().toISOString() : undefined,
     };
 
+    // Higher priority for blog posts
+    if (urlPath.startsWith("/blog")) {
+      entry.priority = 0.8;
+      entry.changefreq = "daily";
+    }
+
     // Custom transformation for blog posts to get lastmod from frontmatter
     if (urlPath.startsWith("/blog/") && urlPath.length > "/blog/".length) {
       const slug = urlPath.split("/blog/")[1];
       try {
-        const blogDir = path.join(process.cwd(), "public/content/blog");
-        const filePath = path.join(blogDir, `${slug}.md`);
-        const content = fs.readFileSync(filePath, "utf8");
-        const { data } = matter(content);
-        if (data.date) {
-          entry.lastmod = new Date(data.date).toISOString();
+        const blogDir = path.join(process.cwd(), "contents/blog");
+        const filePath = path.join(blogDir, `${slug}.mdx`);
+
+        if (fs.existsSync(filePath)) {
+          const content = fs.readFileSync(filePath, "utf8");
+          const { data } = matter(content);
+
+          if (data.date) {
+            entry.lastmod = new Date(data.date).toISOString();
+          }
+
+          // Only include published posts
+          if (data.status !== "published") {
+            return null;
+          }
         }
       } catch (e) {
-        console.warn(`Could not read frontmatter for ${urlPath} to get date.`);
+        console.warn(`Could not read frontmatter for ${urlPath}:`, e.message);
       }
     }
 

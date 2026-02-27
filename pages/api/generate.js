@@ -1,0 +1,494 @@
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { getAllPosts } from "@/lib/blog";
+import { injectInternalLinks, getAllLinkedSlugs } from "@/lib/internalLinks";
+import {
+  getRandomReferences,
+  getSuggestedCategories,
+} from "@/lib/referenceLibrary";
+import {
+  sanitizeContent,
+  generateDisclaimer,
+  generateProductBridge,
+  validateTitle,
+  validateMetaDescription,
+} from "@/lib/contentSanitizer";
+import fs from "fs";
+import path from "path";
+
+/**
+ * AI Content Generation API
+ * Generates blog posts using Gemini AI with safety checks and automation
+ *
+ * SECURITY:
+ * - Vercel Cron: Validates x-vercel-cron-signature header
+ * - Manual: Requires CRON_SECRET query parameter
+ * - Only accepts POST requests
+ */
+export default async function handler(req, res) {
+  // Only allow POST requests
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  // SECURITY: Check authentication
+  const isVercelCron = req.headers["x-vercel-cron"] === "true";
+  const manualSecret = req.query.secret;
+
+  if (!isVercelCron && manualSecret !== process.env.CRON_SECRET) {
+    console.warn("Unauthorized generation attempt blocked", {
+      ip: req.headers["x-forwarded-for"] || req.socket.remoteAddress,
+      isVercelCron,
+      hasSecret: !!manualSecret,
+    });
+    return res.status(401).json({
+      error: "Unauthorized",
+      message:
+        "This endpoint requires authentication. Use ?secret=YOUR_CRON_SECRET for manual triggers.",
+    });
+  }
+
+  // Check for required environment variables
+  const requiredEnvVars = [
+    "GEMINI_API_KEY",
+    "GITHUB_TOKEN",
+    "GITHUB_OWNER",
+    "GITHUB_REPO",
+    "CRON_SECRET",
+  ];
+
+  const missingVars = requiredEnvVars.filter(
+    (varName) => !process.env[varName],
+  );
+
+  if (missingVars.length > 0) {
+    return res.status(500).json({
+      error: "Missing environment variables",
+      missing: missingVars,
+    });
+  }
+
+  try {
+    // Parse query parameters
+    const { force = false, dryRun = false } = req.query;
+
+    // Get all existing posts to avoid duplicates
+    const existingPosts = getAllPosts();
+    const existingSlugs = existingPosts.map((post) => post.slug);
+
+    // Initialize Gemini AI
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+    // Step 1: Generate long-tail keyword
+    console.log("Step 1: Generating keyword...");
+    const keyword = await generateKeyword(model, existingSlugs);
+
+    if (!keyword) {
+      return res
+        .status(500)
+        .json({ error: "Failed to generate unique keyword" });
+    }
+
+    console.log(`Generated keyword: ${keyword.title}`);
+
+    // Step 2: Generate structured article
+    console.log("Step 2: Generating article content...");
+    const article = await generateArticle(model, keyword, existingSlugs);
+
+    if (!article) {
+      return res.status(500).json({ error: "Failed to generate article" });
+    }
+
+    // Step 3: Sanitize content
+    console.log("Step 3: Sanitizing content...");
+    const sanitized = sanitizeContent(article.content);
+
+    if (!sanitized.isValid) {
+      console.error("Content failed sanitization:", sanitized.issues);
+      return res.status(400).json({
+        error: "Content contains banned phrases",
+        issues: sanitized.issues,
+      });
+    }
+
+    // Step 4: Inject internal links
+    console.log("Step 4: Injecting internal links...");
+    const linkedSlugs = getAllLinkedSlugs();
+    const { content: finalContent, injectedLinks } = injectInternalLinks(
+      sanitized.content,
+      keyword.slug,
+      linkedSlugs,
+      3,
+    );
+
+    // Step 5: Add disclaimer and product bridge
+    const completeContent = `${finalContent}\n\n${generateDisclaimer()}\n${generateProductBridge()}`;
+
+    // Step 6: Create MDX file structure
+    const mdxContent = createMDXContent({
+      ...article,
+      content: completeContent,
+      slug: keyword.slug,
+    });
+
+    // Step 7: Validate title and description
+    const titleValidation = validateTitle(article.title);
+    const descValidation = validateMetaDescription(article.description);
+
+    if (!titleValidation.isAppropriate || !descValidation.isValid) {
+      console.warn("Title or description validation issues detected");
+    }
+
+    // If dry run, return preview without committing
+    if (dryRun) {
+      return res.status(200).json({
+        mode: "dry-run",
+        keyword,
+        article,
+        mdxContent,
+        sanitization: sanitized.stats,
+        injectedLinks,
+        validation: {
+          title: titleValidation,
+          description: descValidation,
+        },
+      });
+    }
+
+    // Step 8: Commit to GitHub
+    console.log("Step 8: Committing to GitHub...");
+    const commitResult = await commitToGitHub(
+      keyword.slug,
+      mdxContent,
+      process.env.GITHUB_TOKEN,
+      process.env.GITHUB_OWNER,
+      process.env.GITHUB_REPO,
+    );
+
+    // Return success response
+    return res.status(200).json({
+      success: true,
+      slug: keyword.slug,
+      title: article.title,
+      wordCount: sanitized.stats.totalWords,
+      injectedLinks: injectedLinks.length,
+      commit: commitResult,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error("Error in generate API:", error);
+    return res.status(500).json({
+      error: "Internal server error",
+      message: error.message,
+    });
+  }
+}
+
+/**
+ * Generate a long-tail keyword within the topical focus
+ */
+async function generateKeyword(model, existingSlugs) {
+  const prompt = `
+Generate a long-tail keyword for a blog article about "Overthinking at Night & Racing Thoughts".
+
+Requirements:
+- Must be specific and long-tail (4-7 words)
+- Must include emotional intent
+- Must be something someone would actually search for
+- Must NOT be any of these existing topics: ${existingSlugs.join(", ")}
+
+Return ONLY a JSON object with this structure (no markdown, no code blocks):
+{
+  "title": "Article title version of the keyword",
+  "slug": "url-friendly-slug",
+  "searchIntent": "what the searcher wants to know"
+}
+  `.trim();
+
+  try {
+    const result = await model.generateContent(prompt);
+    const response = result.response.text();
+
+    // Extract JSON from response (handle markdown, code blocks, extra text)
+    const jsonMatch = response.match(/\{[\s\S]+\}/);
+    if (!jsonMatch) {
+      console.error("No JSON object found in keyword response:", response);
+      return null;
+    }
+
+    const cleaned = jsonMatch[0]
+      .replace(/,\s*\}/g, "}") // Remove trailing commas
+      .replace(/,\s*\]/g, "]"); // Remove trailing commas in arrays
+
+    let keyword;
+    try {
+      keyword = JSON.parse(cleaned);
+    } catch (parseError) {
+      console.error("Failed to parse keyword JSON:", cleaned);
+      console.error("Parse error:", parseError.message);
+      return null;
+    }
+
+    // Validate uniqueness
+    if (existingSlugs.includes(keyword.slug)) {
+      console.log("Generated duplicate slug, retrying...");
+      return null;
+    }
+
+    return keyword;
+  } catch (error) {
+    console.error("Error generating keyword:", error);
+    return null;
+  }
+}
+
+/**
+ * Generate structured article content
+ */
+async function generateArticle(model, keyword, existingSlugs) {
+  // Get suggested reference categories
+  const suggestedCategories = getSuggestedCategories(keyword.title);
+  const references = getRandomReferences(2);
+
+  const prompt = `
+Write a blog article about: "${keyword.title}"
+
+CRITICAL RULES:
+- 900-1400 words
+- Calm, minimal, psychologically grounded tone
+- Use H2 and H3 headers for structure
+- NO medical claims, diagnoses, or treatment advice
+- NO fake statistics or numeric claims
+- NO phrases like "diagnose", "disorder", "cure", "treatment", "clinical"
+- Use "research suggests" or "studies explore" for references
+- NO generic AI fluff (avoid "in today's world", "let's dive in", "in conclusion")
+- NO repetitive intro patterns
+- Include 1 subtle mention of journaling/brain dump technique
+- Write in markdown format
+
+References to incorporate naturally (do NOT cite directly):
+${references.map((ref) => `- ${ref.keyPoint}`).join("\n")}
+
+Structure:
+1. Hook that connects to reader's experience
+2. 3-5 H2 sections explaining different aspects
+3. Practical insight (not prescriptive)
+4. Closing reflection (not "in conclusion")
+
+Return ONLY a JSON object (no markdown, no code blocks):
+{
+  "title": "${keyword.title}",
+  "description": "120-160 character meta description",
+  "content": "full markdown article content",
+  "tags": ["tag1", "tag2", "tag3"],
+  "categories": ["category1", "category2"]
+}
+  `.trim();
+
+  try {
+    const result = await model.generateContent(prompt);
+    const response = result.response.text();
+
+    // Extract JSON from response (handle markdown, code blocks, extra text)
+    const jsonMatch = response.match(/\{[\s\S]+\}/);
+    if (!jsonMatch) {
+      console.error("No JSON object found in article response:", response);
+      return null;
+    }
+
+    const cleaned = jsonMatch[0]
+      .replace(/,\s*\}/g, "}") // Remove trailing commas
+      .replace(/,\s*\]/g, "]"); // Remove trailing commas in arrays
+
+    let article;
+    try {
+      article = JSON.parse(cleaned);
+    } catch (parseError) {
+      console.error("Failed to parse article JSON:");
+      console.error("First 500 chars:", cleaned.substring(0, 500));
+      console.error("Parse error:", parseError.message);
+      return null;
+    }
+
+    return article;
+  } catch (error) {
+    console.error("Error generating article:", error);
+    return null;
+  }
+}
+
+/**
+ * Create MDX file content with frontmatter
+ */
+function createMDXContent(article) {
+  const frontmatter = `---
+title: "${article.title}"
+slug: "${article.slug}"
+description: "${article.description}"
+date: "${new Date().toISOString().split("T")[0]}"
+author: "Pippin"
+image: "/pippin-banner.jpg"
+status: "published"
+cluster: "night-overthinking"
+tags: ${JSON.stringify(article.tags)}
+categories: ${JSON.stringify(article.categories)}
+readingTime: ${Math.ceil(article.content.split(/\s+/).length / 200)}
+---
+
+${article.content}`;
+
+  return frontmatter;
+}
+
+/**
+ * Commit MDX file to GitHub
+ */
+async function commitToGitHub(slug, content, token, owner, repo) {
+  // All generated articles go to night-overthinking cluster
+  const filePath = `contents/blog/night-overthinking/${slug}.mdx`;
+  const apiBase = "https://api.github.com";
+
+  try {
+    // Step 1: Get the latest commit SHA
+    const refResponse = await fetch(
+      `${apiBase}/repos/${owner}/${repo}/git/ref/heads/master`,
+      {
+        headers: {
+          Authorization: `token ${token}`,
+          Accept: "application/vnd.github.v3+json",
+        },
+      },
+    );
+
+    if (!refResponse.ok) {
+      throw new Error("Failed to get ref");
+    }
+
+    const refData = await refResponse.json();
+    const latestCommitSha = refData.object.sha;
+
+    // Step 2: Get the tree for latest commit
+    const commitResponse = await fetch(
+      `${apiBase}/repos/${owner}/${repo}/git/commits/${latestCommitSha}`,
+      {
+        headers: {
+          Authorization: `token ${token}`,
+          Accept: "application/vnd.github.v3+json",
+        },
+      },
+    );
+
+    if (!commitResponse.ok) {
+      throw new Error("Failed to get commit");
+    }
+
+    const commitData = await commitResponse.json();
+    const baseTreeSha = commitData.tree.sha;
+
+    // Step 3: Create blob for the file
+    const blobResponse = await fetch(
+      `${apiBase}/repos/${owner}/${repo}/git/blobs`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `token ${token}`,
+          Accept: "application/vnd.github.v3+json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          content: Buffer.from(content).toString("base64"),
+          encoding: "base64",
+        }),
+      },
+    );
+
+    if (!blobResponse.ok) {
+      throw new Error("Failed to create blob");
+    }
+
+    const blobData = await blobResponse.json();
+
+    // Step 4: Create new tree
+    const treeResponse = await fetch(
+      `${apiBase}/repos/${owner}/${repo}/git/trees`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `token ${token}`,
+          Accept: "application/vnd.github.v3+json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          base_tree: baseTreeSha,
+          tree: [
+            {
+              path: filePath,
+              mode: "100644",
+              type: "blob",
+              sha: blobData.sha,
+            },
+          ],
+        }),
+      },
+    );
+
+    if (!treeResponse.ok) {
+      throw new Error("Failed to create tree");
+    }
+
+    const treeData = await treeResponse.json();
+
+    // Step 5: Create commit
+    const newCommitResponse = await fetch(
+      `${apiBase}/repos/${owner}/${repo}/git/commits`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `token ${token}`,
+          Accept: "application/vnd.github.v3+json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: `Add blog post: ${slug}`,
+          tree: treeData.sha,
+          parents: [latestCommitSha],
+        }),
+      },
+    );
+
+    if (!newCommitResponse.ok) {
+      throw new Error("Failed to create commit");
+    }
+
+    const newCommitData = await newCommitResponse.json();
+
+    // Step 6: Update reference
+    const updateRefResponse = await fetch(
+      `${apiBase}/repos/${owner}/${repo}/git/refs/heads/master`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `token ${token}`,
+          Accept: "application/vnd.github.v3+json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sha: newCommitData.sha,
+        }),
+      },
+    );
+
+    if (!updateRefResponse.ok) {
+      throw new Error("Failed to update ref");
+    }
+
+    return {
+      success: true,
+      commitSha: newCommitData.sha,
+      filePath,
+    };
+  } catch (error) {
+    console.error("GitHub commit error:", error);
+    throw error;
+  }
+}

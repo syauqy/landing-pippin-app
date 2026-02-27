@@ -59,3 +59,12 @@ resources/ios/**/*
 
 # ignore any audit-prefixed markdowns
 /AUDIT_*.md
+
+# Blog documentation (private)
+/app-store-descriptions.md
+/app-store-description*.md
+/BLOG_IMPLEMENTATION*.md
+/BLOG_QUICK_START.md
+/BLOG_SETUP.md
+/blog-project.md
+/blog-*.md
