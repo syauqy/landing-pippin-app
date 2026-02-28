@@ -234,24 +234,32 @@ Return ONLY a JSON object with this structure (no markdown, no code blocks):
     const result = await model.generateContent(prompt);
     const response = result.response.text();
 
-    // Extract JSON from response (handle markdown, code blocks, extra text)
-    const jsonMatch = response.match(/\{[\s\S]+\}/);
-    if (!jsonMatch) {
-      console.error("No JSON object found in keyword response:", response);
-      return null;
-    }
+    // Try multiple JSON extraction strategies
+    let keyword = null;
 
-    const cleaned = jsonMatch[0]
-      .replace(/,\s*\}/g, "}") // Remove trailing commas
-      .replace(/,\s*\]/g, "]"); // Remove trailing commas in arrays
-
-    let keyword;
+    // Strategy 1: Direct JSON parse
     try {
-      keyword = JSON.parse(cleaned);
-    } catch (parseError) {
-      console.error("Failed to parse keyword JSON:", cleaned);
-      console.error("Parse error:", parseError.message);
-      return null;
+      keyword = JSON.parse(response);
+    } catch (e) {
+      // Strategy 2: Extract from code blocks/markdown
+      const jsonMatch = response.match(/\{[\s\S]+\}/);
+      if (!jsonMatch) {
+        console.error("No JSON object found in keyword response");
+        console.error("Response:", response.substring(0, 300));
+        return null;
+      }
+
+      const cleaned = jsonMatch[0]
+        .replace(/,\s*\}/g, "}") // Remove trailing commas
+        .replace(/,\s*\]/g, "]"); // Remove trailing commas in arrays
+
+      try {
+        keyword = JSON.parse(cleaned);
+      } catch (parseError) {
+        console.error("Failed to parse keyword JSON:", cleaned);
+        console.error("Parse error:", parseError.message);
+        return null;
+      }
     }
 
     // Validate uniqueness
@@ -279,7 +287,7 @@ async function generateArticle(model, keyword, existingSlugs) {
 Write a blog article about: "${keyword.title}"
 
 CRITICAL RULES:
-- 900-1400 words
+- 1100-1400 words
 - Calm, minimal, psychologically grounded tone
 - Use H2 and H3 headers for structure
 - NO medical claims, diagnoses, or treatment advice
@@ -300,11 +308,13 @@ Structure:
 3. Practical insight (not prescriptive)
 4. Closing reflection (not "in conclusion")
 
-Return ONLY a JSON object (no markdown, no code blocks):
+IMPORTANT: Return ONLY valid JSON. Escape all quotes and special characters in the content field.
+
+Return ONLY a JSON object (no markdown, no code blocks, no extra text):
 {
   "title": "${keyword.title}",
   "description": "120-160 character meta description",
-  "content": "full markdown article content",
+  "content": "full markdown article content with properly escaped quotes",
   "tags": ["tag1", "tag2", "tag3"],
   "categories": ["category1", "category2"]
 }
@@ -314,28 +324,72 @@ Return ONLY a JSON object (no markdown, no code blocks):
     const result = await model.generateContent(prompt);
     const response = result.response.text();
 
-    // Extract JSON from response (handle markdown, code blocks, extra text)
+    // Try multiple JSON extraction strategies
+    let article = null;
+
+    // Strategy 1: Direct JSON parse (if response is clean JSON)
+    try {
+      article = JSON.parse(response);
+      return article;
+    } catch (e) {
+      // Continue to Strategy 2
+    }
+
+    // Strategy 2: Extract JSON from markdown/code blocks
     const jsonMatch = response.match(/\{[\s\S]+\}/);
     if (!jsonMatch) {
-      console.error("No JSON object found in article response:", response);
+      console.error("No JSON object found in article response");
+      console.error("Response preview:", response.substring(0, 500));
       return null;
     }
 
-    const cleaned = jsonMatch[0]
-      .replace(/,\s*\}/g, "}") // Remove trailing commas
+    let cleaned = jsonMatch[0]
+      .replace(/,\s*\}/g, "}") // Remove trailing commas in objects
       .replace(/,\s*\]/g, "]"); // Remove trailing commas in arrays
 
-    let article;
+    // Strategy 3: Try parsing the cleaned JSON
     try {
       article = JSON.parse(cleaned);
+      return article;
     } catch (parseError) {
+      // Strategy 4: Try to fix common JSON issues
+      console.error("JSON parse failed, attempting repairs...");
+
+      // Fix unescaped quotes in content field
+      try {
+        // Extract the content field and re-escape it
+        const contentMatch = cleaned.match(
+          /"content":\s*"([\s\S]*?)",?\s*"tags"/,
+        );
+        if (contentMatch) {
+          const rawContent = contentMatch[1];
+          // Re-escape the content
+          const escapedContent = rawContent
+            .replace(/\\/g, "\\\\") // Escape backslashes
+            .replace(/"/g, '\\"') // Escape quotes
+            .replace(/\n/g, "\\n") // Escape newlines
+            .replace(/\r/g, "\\r") // Escape carriage returns
+            .replace(/\t/g, "\\t"); // Escape tabs
+
+          cleaned = cleaned.replace(
+            /"content":\s*"[\s\S]*?",?\s*"tags"/,
+            `"content": "${escapedContent}", "tags"`,
+          );
+
+          article = JSON.parse(cleaned);
+          console.log("Successfully repaired JSON");
+          return article;
+        }
+      } catch (repairError) {
+        console.error("JSON repair failed:", repairError.message);
+      }
+
       console.error("Failed to parse article JSON:");
-      console.error("First 500 chars:", cleaned.substring(0, 500));
       console.error("Parse error:", parseError.message);
+      console.error("First 500 chars:", cleaned.substring(0, 500));
+      console.error("Last 500 chars:", cleaned.substring(cleaned.length - 500));
       return null;
     }
-
-    return article;
   } catch (error) {
     console.error("Error generating article:", error);
     return null;

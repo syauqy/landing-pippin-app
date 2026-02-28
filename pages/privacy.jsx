@@ -76,7 +76,7 @@ export default function Privacy() {
     <div className="min-h-screen flex flex-col bg-base-100 text-base-content relative">
       <NextSeo
         title="Privacy Policy – Pippin"
-        description="Privacy Policy for the Pippin journal app. We are committed to protecting your personal information and your right to privacy."
+        description="Read how Pippin protects your privacy, handles your data, and keeps your journal secure. We value your trust and are committed to transparency."
         openGraph={{
           type: "website",
           locale: "en_US",
@@ -84,7 +84,7 @@ export default function Privacy() {
           siteName: "Pippin",
           title: "Privacy Policy – Pippin",
           description:
-            "Minimalist journal for overthinkers. Quiet your mind, lock it away, and let it go.",
+            "Learn about Pippin's privacy practices, data protection, and your rights as a user of our minimalist journal app.",
           images: [
             {
               url: "/pippin-banner.jpg",

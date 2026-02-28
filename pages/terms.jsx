@@ -76,7 +76,7 @@ export default function Terms() {
     <div className="min-h-screen flex flex-col bg-base-100 text-base-content relative">
       <NextSeo
         title="Terms of Service – Pippin"
-        description="Terms of Service for the Pippin journal app. Your access to and use of the Service is conditioned upon your acceptance of and compliance with these Terms."
+        description="Review the terms and conditions for using Pippin. Understand your rights, responsibilities, and our commitment to your privacy and security."
         openGraph={{
           type: "website",
           locale: "en_US",
@@ -84,7 +84,7 @@ export default function Terms() {
           siteName: "Pippin",
           title: "Terms of Service – Pippin",
           description:
-            "Minimalist journal for overthinkers. Quiet your mind, lock it away, and let it go.",
+            "The official terms and conditions for using the Pippin journal app. Learn about user rights, responsibilities, and service limitations.",
           images: [
             {
               url: "/pippin-banner.jpg",
