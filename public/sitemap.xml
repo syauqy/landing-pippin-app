@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://getpippin.app</loc><lastmod>2026-02-27T08:48:38.082Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://getpippin.app/blog</loc><lastmod>2026-02-27T08:48:38.083Z</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
-<url><loc>https://getpippin.app/privacy</loc><lastmod>2026-02-27T08:48:38.083Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://getpippin.app/support</loc><lastmod>2026-02-27T08:48:38.083Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://getpippin.app/terms</loc><lastmod>2026-02-27T08:48:38.083Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://getpippin.app/blog/night-overthinking</loc><lastmod>2026-02-27T08:48:38.083Z</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
-<url><loc>https://getpippin.app/blog/night-overthinking/overthinking-and-insomnia</loc><lastmod>2026-02-23T00:00:00.000Z</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
-<url><loc>https://getpippin.app/blog/night-overthinking/racing-thoughts-before-sleep</loc><lastmod>2026-02-24T00:00:00.000Z</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
-<url><loc>https://getpippin.app/blog/night-overthinking/why-you-overthink-at-night</loc><lastmod>2026-02-25T00:00:00.000Z</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.getpippin.app/blog</loc><lastmod>2026-02-28T08:23:50.614Z</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.getpippin.app/blog/night-overthinking/how-to-quiet-a-busy-mind-before-bed</loc><lastmod>2026-02-28T00:00:00.000Z</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.getpippin.app/blog/night-overthinking/index</loc><lastmod>2026-02-27T00:00:00.000Z</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.getpippin.app/blog/night-overthinking/overthinking-and-insomnia</loc><lastmod>2026-02-23T00:00:00.000Z</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.getpippin.app/blog/night-overthinking/racing-thoughts-before-sleep</loc><lastmod>2026-02-24T00:00:00.000Z</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.getpippin.app/blog/night-overthinking/stop-anxious-overthinking-quiet-thoughts-night</loc><lastmod>2026-02-27T00:00:00.000Z</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.getpippin.app/blog/night-overthinking/why-you-overthink-at-night</loc><lastmod>2026-02-25T00:00:00.000Z</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+<url><loc>https://www.getpippin.app/blog/night-overthinking</loc><lastmod>2026-02-28T08:23:50.621Z</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
 </urlset>

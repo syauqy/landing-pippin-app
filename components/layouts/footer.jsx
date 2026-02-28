@@ -97,7 +97,7 @@ export function Footer({ bg, showBadgeMarquee = false }) {
                 />
                 <div className="flex flex-col">
                   <p className="leading-5">Matcharge</p>
-                  <p className=" text-xs max-w-sm font-light text-center">
+                  <p className=" text-xs max-w-sm font-light text-center hidden md:block text-base-content/70">
                     Calm way to track your subscriptions
                   </p>
                 </div>

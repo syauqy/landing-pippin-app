@@ -10,6 +10,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
+import TableOfContents from "@/components/TableOfContents";
 import {
   validateClusterArticle,
   getCluster,
@@ -32,19 +33,25 @@ const resetParagraphCount = () => {
 const MDXComponents = {
   h1: (props) => (
     <h1
-      className={`${plusJakartaSans.className} text-3xl md:text-4xl font-bold mb-6 mt-8 text-base-content`}
+      className={`${plusJakartaSans.className} text-3xl md:text-4xl font-bold mb-6 mt-8 text-base-content scroll-mt-20`}
       {...props}
     />
   ),
   h2: (props) => (
     <h2
-      className={`${plusJakartaSans.className} text-2xl md:text-3xl font-bold mb-4 mt-8 text-base-content`}
+      className={`${plusJakartaSans.className} text-2xl md:text-3xl font-bold mb-4 mt-8 text-base-content scroll-mt-20`}
       {...props}
     />
   ),
   h3: (props) => (
     <h3
-      className={`${plusJakartaSans.className} text-xl md:text-2xl font-semibold mb-3 mt-6 text-base-content`}
+      className={`${plusJakartaSans.className} text-xl md:text-2xl font-semibold mb-3 mt-6 text-base-content scroll-mt-20`}
+      {...props}
+    />
+  ),
+  h4: (props) => (
+    <h4
+      className={`${plusJakartaSans.className} text-lg md:text-xl font-semibold mb-2 mt-4 text-base-content scroll-mt-20`}
       {...props}
     />
   ),
@@ -130,7 +137,7 @@ function RelatedArticleCard({ post, cluster }) {
   return (
     <Link
       href={`/blog/${postCluster}/${slug}`}
-      className="group card bg-base-100 hover:bg-base-300 transition-all duration-300 hover:shadow-lg"
+      className="group card bg-base-100 transition-all duration-300 hover:shadow-sm border border-primary/20"
     >
       <div className="card-body p-5">
         <div className="flex items-center gap-2 text-xs text-base-content/60 mb-2">
@@ -281,187 +288,200 @@ export default function BlogPostPage({
       <Navbar />
 
       <main className="flex-1">
-        <article className="w-full py-12 px-4">
-          <div className="max-w-3xl mx-auto">
-            {/* Back to Blog Button */}
-            <div className="mb-4">
-              <Link
-                href="/blog"
-                className="inline-flex items-center gap-2 text-sm text-base-content/60 hover:text-primary transition-colors group"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  className="w-4 h-4 group-hover:-translate-x-1 transition-transform"
+        {/* Wrapper for content + ToC */}
+        <div className="relative w-full max-w-7xl mx-auto px-4 py-12">
+          {/* Main content - centered */}
+          <article className="w-full max-w-3xl mx-auto">
+            <div className="max-w-3xl">
+              {/* Back to Blog Button */}
+              <div className="mb-4">
+                <Link
+                  href="/blog"
+                  className="inline-flex items-center gap-2 text-sm text-base-content/60 hover:text-primary transition-colors group"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-                  />
-                </svg>
-                <span>Back to Blog</span>
-              </Link>
-            </div>
-
-            {/* Breadcrumb */}
-            <nav className="text-sm mb-8 flex items-center gap-2">
-              <Link
-                href="/blog"
-                className="text-base-content/60 hover:text-primary transition-colors"
-              >
-                Blog
-              </Link>
-              <span className="text-base-content/40">/</span>
-              <Link
-                href={`/blog/${cluster}`}
-                className="text-base-content/60 hover:text-primary transition-colors capitalize"
-              >
-                {cluster.replace(/-/g, " ")}
-              </Link>
-            </nav>
-
-            {/* Title */}
-            <h1
-              className={`${plusJakartaSans.className} text-4xl md:text-5xl font-extrabold mb-6 text-base-content`}
-            >
-              {frontmatter.title}
-            </h1>
-
-            {/* Meta Information */}
-            <div className="flex flex-wrap items-center gap-4 text-base-content/60 mb-8 pb-8 border-b border-base-300">
-              <time dateTime={frontmatter.date}>{formattedDate}</time>
-              <span>•</span>
-              <span>{readingTime} min read</span>
-              {frontmatter.author && (
-                <>
-                  <span>•</span>
-                  <span>{frontmatter.author}</span>
-                </>
-              )}
-            </div>
-
-            {/* Tags */}
-            {frontmatter.tags && frontmatter.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-8">
-                {frontmatter.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="badge badge-lg badge-ghost text-base-content/70"
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="w-4 h-4 group-hover:-translate-x-1 transition-transform"
                   >
-                    {tag}
-                  </span>
-                ))}
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+                    />
+                  </svg>
+                  <span>Back to Blog</span>
+                </Link>
               </div>
-            )}
 
-            {/* Article Content */}
-            <div className="prose prose-lg max-w-none">
-              <MDXRemote {...mdxSource} components={MDXComponents} />
-            </div>
-
-            {/* Educational Disclaimer */}
-            <div className="mt-12 p-6 bg-base-200 rounded-lg">
-              <h4
-                className={`${plusJakartaSans.className} font-bold mb-2 text-base-content`}
-              >
-                Educational Resource
-              </h4>
-              <p className="text-sm text-base-content/70">
-                This article is for educational purposes and reflects common
-                experiences with overthinking. It is not medical advice or
-                mental health treatment. If you're experiencing persistent
-                distress, consider speaking with a qualified mental health
-                professional.
-              </p>
-            </div>
-
-            {/* Product Bridge */}
-            <div className="mt-8 p-6 bg-primary/5 border border-primary/20 rounded-lg">
-              <h4
-                className={`${plusJakartaSans.className} font-bold mb-2 text-base-content`}
-              >
-                A Simple Tool for Releasing Thoughts
-              </h4>
-              <p className="text-sm text-base-content/70 mb-4">
-                If you find yourself caught in mental loops, Pippin offers a
-                minimal way to externalize your thoughts. Write them down, lock
-                them away, and let your mind rest.
-              </p>
-              <Link href="/" className="btn btn-primary btn-sm">
-                Learn More About Pippin
-              </Link>
-            </div>
-
-            {/* CTA Section */}
-            <div className="mt-12 p-8 bg-linear-to-r from-primary/10 to-primary/5 border-2 border-primary/30 rounded-xl">
-              <div className="text-center mb-6">
-                <span className="inline-block text-4xl mb-3">✨</span>
-                <h3
-                  className={`${plusJakartaSans.className} text-2xl md:text-3xl font-bold mb-3 text-base-content`}
+              {/* Breadcrumb */}
+              <nav className="text-sm mb-8 flex items-center gap-2">
+                <Link
+                  href="/blog"
+                  className="text-base-content/60 hover:text-primary transition-colors"
                 >
-                  Try a 5-Minute Brain Dump Before Sleep
-                </h3>
-                <p className="text-base-content/70 mb-6 max-w-2xl mx-auto">
-                  Tonight, set aside 5 minutes before bed. Grab a notebook or
-                  your phone and write down everything circulating in your
-                  mind—no filtering, no organizing, just dump it all out. Watch
-                  how your mind settles when your thoughts are externalized.
+                  Blog
+                </Link>
+                <span className="text-base-content/40">/</span>
+                <Link
+                  href={`/blog/${cluster}`}
+                  className="text-base-content/60 hover:text-primary transition-colors capitalize"
+                >
+                  {cluster.replace(/-/g, " ")}
+                </Link>
+              </nav>
+
+              {/* Title */}
+              <h1
+                className={`${plusJakartaSans.className} text-4xl md:text-5xl font-extrabold mb-6 text-base-content`}
+              >
+                {frontmatter.title}
+              </h1>
+
+              {/* Meta Information */}
+              <div className="flex flex-wrap items-center gap-4 text-base-content/60 mb-8 pb-8 border-b border-base-300">
+                <time dateTime={frontmatter.date}>{formattedDate}</time>
+                <span>•</span>
+                <span>{readingTime} min read</span>
+                {frontmatter.author && (
+                  <>
+                    <span>•</span>
+                    <span>{frontmatter.author}</span>
+                  </>
+                )}
+              </div>
+
+              {/* Tags */}
+              {frontmatter.tags && frontmatter.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {frontmatter.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="badge badge-lg badge-ghost text-base-content/70"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {/* Article Content */}
+              <div className="prose prose-lg max-w-none">
+                <MDXRemote {...mdxSource} components={MDXComponents} />
+              </div>
+
+              {/* Educational Disclaimer */}
+              <div className="mt-12 p-6 bg-base-200 rounded-lg">
+                <h4
+                  className={`${plusJakartaSans.className} font-bold mb-2 text-base-content`}
+                >
+                  Educational Resource
+                </h4>
+                <p className="text-sm text-base-content/70">
+                  This article is for educational purposes and reflects common
+                  experiences with overthinking. It is not medical advice or
+                  mental health treatment. If you're experiencing persistent
+                  distress, consider speaking with a qualified mental health
+                  professional.
                 </p>
               </div>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <div className="flex-1 sm:flex-none">
-                  <div className="card bg-base-100/80 hover:bg-base-100 transition-colors">
-                    <div className="card-body items-center text-center p-4">
-                      <div className="text-3xl mb-2">📝</div>
-                      <h4
-                        className={`${plusJakartaSans.className} font-bold text-sm text-base-content`}
-                      >
-                        Step 1: Write
-                      </h4>
-                      <p className="text-xs text-base-content/60">
-                        Brain dump everything without judgment
-                      </p>
+
+              {/* CTA Section */}
+              <div className="mt-12 p-8 bg-linear-to-r from-primary/10 to-primary/5 border-2 border-primary/30 rounded-xl">
+                <div className="text-center mb-6">
+                  <span className="inline-block text-4xl mb-3">✨</span>
+                  <h3
+                    className={`${plusJakartaSans.className} text-2xl md:text-3xl font-bold mb-3 text-base-content`}
+                  >
+                    Try a 5-Minute Brain Dump Before Sleep
+                  </h3>
+                  <p className="text-base-content/70 mb-6 max-w-2xl mx-auto">
+                    Tonight, set aside 5 minutes before bed. Open Pippin and
+                    write down everything circulating in your mind—no filtering,
+                    no organizing, just dump it all out. Watch how your mind
+                    settles when your thoughts are externalized and locked away.
+                  </p>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                  <div className="flex-1 sm:flex-none">
+                    <div className="card bg-base-100/80 hover:bg-base-100 transition-colors">
+                      <div className="card-body items-center text-center p-4">
+                        <div className="text-3xl mb-2">📝</div>
+                        <h4
+                          className={`${plusJakartaSans.className} font-bold text-sm text-base-content`}
+                        >
+                          Step 1: Write
+                        </h4>
+                        <p className="text-xs text-base-content/60">
+                          Brain dump everything in Pippin
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex-1 sm:flex-none">
+                    <div className="card bg-base-100/80 hover:bg-base-100 transition-colors">
+                      <div className="card-body items-center text-center p-4">
+                        <div className="text-3xl mb-2">🔒</div>
+                        <h4
+                          className={`${plusJakartaSans.className} font-bold text-sm text-base-content`}
+                        >
+                          Step 2: Lock Away
+                        </h4>
+                        <p className="text-xs text-base-content/60">
+                          Tap lock to secure your thoughts
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex-1 sm:flex-none">
+                    <div className="card bg-base-100/80 hover:bg-base-100 transition-colors">
+                      <div className="card-body items-center text-center p-4">
+                        <div className="text-3xl mb-2">😴</div>
+                        <h4
+                          className={`${plusJakartaSans.className} font-bold text-sm text-base-content`}
+                        >
+                          Step 3: Let Go
+                        </h4>
+                        <p className="text-xs text-base-content/60">
+                          Rest knowing thoughts are safe
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="flex-1 sm:flex-none">
-                  <div className="card bg-base-100/80 hover:bg-base-100 transition-colors">
-                    <div className="card-body items-center text-center p-4">
-                      <div className="text-3xl mb-2">🔒</div>
-                      <h4
-                        className={`${plusJakartaSans.className} font-bold text-sm text-base-content`}
-                      >
-                        Step 2: Lock Away
-                      </h4>
-                      <p className="text-xs text-base-content/60">
-                        Close the notebook, put device away
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex-1 sm:flex-none">
-                  <div className="card bg-base-100/80 hover:bg-base-100 transition-colors">
-                    <div className="card-body items-center text-center p-4">
-                      <div className="text-3xl mb-2">😴</div>
-                      <h4
-                        className={`${plusJakartaSans.className} font-bold text-sm text-base-content`}
-                      >
-                        Step 3: Let Go
-                      </h4>
-                      <p className="text-xs text-base-content/60">
-                        Rest knowing thoughts are captured
-                      </p>
-                    </div>
-                  </div>
+                <div className="flex justify-center">
+                  <a
+                    href="https://apps.apple.com/us/app/pippin-overthinking-journal/id6755423327"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block"
+                  >
+                    <img
+                      src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us"
+                      alt="Download on the App Store"
+                      className="w-[200px] h-auto object-contain"
+                    />
+                  </a>
                 </div>
               </div>
+            </div>{" "}
+          </article>
+
+          {/* Floating ToC - Desktop */}
+          <aside className="hidden xl:block absolute -right-5 top-0 w-64 h-full pointer-events-none">
+            <div className="sticky top-24 pointer-events-auto">
+              <TableOfContents />
             </div>
-          </div>
-        </article>
+          </aside>
+        </div>
+
+        {/* Table of Contents - Mobile */}
+        <div className="block xl:hidden">
+          <TableOfContents />
+        </div>
 
         {/* Related Articles Section */}
         {relatedPosts && relatedPosts.length > 0 && (
@@ -549,7 +569,7 @@ export async function getStaticProps({ params }) {
 
   // Filter and score related posts
   const relatedPosts = allPosts
-    .filter((p) => p.slug !== slug && p.cluster === cluster) // Same cluster only
+    .filter((p) => p.slug !== slug && p.cluster === cluster && !p.isPillar) // Same cluster only, exclude pillar
     .map((p) => {
       let score = 0;
       const postTags = p.frontmatter.tags || [];

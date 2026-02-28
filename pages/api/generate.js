@@ -7,8 +7,6 @@ import {
 } from "@/lib/referenceLibrary";
 import {
   sanitizeContent,
-  generateDisclaimer,
-  generateProductBridge,
   validateTitle,
   validateMetaDescription,
 } from "@/lib/contentSanitizer";
@@ -121,13 +119,10 @@ export default async function handler(req, res) {
       3,
     );
 
-    // Step 5: Add disclaimer and product bridge
-    const completeContent = `${finalContent}\n\n${generateDisclaimer()}\n${generateProductBridge()}`;
-
-    // Step 6: Create MDX file structure
+    // Step 5: Create MDX file structure (disclaimer is hardcoded in template)
     const mdxContent = createMDXContent({
       ...article,
-      content: completeContent,
+      content: finalContent,
       slug: keyword.slug,
     });
 

@@ -16,6 +16,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 export default function BlogIndexPage({ posts, tags }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTag, setSelectedTag] = useState(null);
+  const [showAllTags, setShowAllTags] = useState(false);
 
   // Filter posts based on search query and selected tag
   const filteredPosts = useMemo(() => {
@@ -94,7 +95,7 @@ export default function BlogIndexPage({ posts, tags }) {
                   placeholder="Search articles by title, topic, or keyword..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-4 py-3 md:py-4 pl-12 rounded-lg bg-base-200 text-base-content placeholder-base-content/40 border-2 border-transparent focus:border-primary focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 md:py-4 pl-12 rounded-2xl bg-base-200 text-base-content placeholder-base-content/40 border-2 border-transparent focus:border-primary focus:outline-none transition-colors"
                 />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +117,7 @@ export default function BlogIndexPage({ posts, tags }) {
         </section>
 
         {/* Tags Section */}
-        {tags.length > 0 && (
+        {!searchQuery && tags.length > 0 && (
           <section className="w-full py-12 px-4 bg-base-200/50">
             <div className="max-w-6xl mx-auto">
               <h2
@@ -131,27 +132,58 @@ export default function BlogIndexPage({ posts, tags }) {
                   className={`badge badge-lg transition-all ${
                     selectedTag === null
                       ? "badge-primary text-primary-content"
-                      : "badge-outline text-base-content/70 hover:badge-primary hover:text-primary-content"
+                      : "badge-outline text-base-content/70 hover:bg-base-300 hover:text-base-content"
                   }`}
                 >
                   All Topics
                 </button>
 
-                {tags.map((tag) => (
+                {(showAllTags ? tags : tags.slice(0, 9)).map((tag) => (
                   <button
                     key={tag}
                     onClick={() =>
                       setSelectedTag(selectedTag === tag ? null : tag)
                     }
-                    className={`badge badge-lg transition-all cursor-pointer ${
+                    className={`badge badge-lg transition-all cursor-pointer capitalize ${
                       selectedTag === tag
                         ? "badge-primary text-primary-content"
-                        : "badge-outline text-base-content/70 hover:badge-primary hover:text-primary-content"
+                        : "badge-outline text-base-content/70 hover:bg-base-300 hover:text-base-content"
                     }`}
                   >
                     {tag}
                   </button>
                 ))}
+
+                {/* Show More/Less button on mobile */}
+                {tags.length > 9 && (
+                  <button
+                    onClick={() => setShowAllTags(!showAllTags)}
+                    className="badge badge-lg badge-ghost text-primary hover:bg-primary/10 transition-all lg:hidden"
+                  >
+                    {showAllTags ? "Show Less" : `+${tags.length - 9} More`}
+                  </button>
+                )}
+
+                {/* Show remaining tags on desktop */}
+                {!showAllTags && tags.length > 9 && (
+                  <>
+                    {tags.slice(9).map((tag) => (
+                      <button
+                        key={tag}
+                        onClick={() =>
+                          setSelectedTag(selectedTag === tag ? null : tag)
+                        }
+                        className={`hidden lg:inline-flex badge badge-lg transition-all cursor-pointer capitalize ${
+                          selectedTag === tag
+                            ? "badge-primary text-primary-content"
+                            : "badge-outline text-base-content/70 hover:bg-base-300 hover:text-base-content"
+                        }`}
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </>
+                )}
               </div>
             </div>
           </section>
@@ -176,7 +208,7 @@ export default function BlogIndexPage({ posts, tags }) {
               {posts.find((post) => post.isPillar) && (
                 <Link
                   href={`/blog/${posts.find((post) => post.isPillar).cluster}`}
-                  className="group block card bg-base-100 hover:bg-base-200 transition-all duration-300 hover:shadow-2xl border-2 border-primary/20"
+                  className="group block card bg-base-100 transition-all duration-300 hover:shadow-sm border-2 border-primary/20"
                 >
                   <div className="card-body p-8 md:p-10">
                     <div className="flex items-start gap-4">
@@ -321,7 +353,7 @@ function BlogCard({ post }) {
   return (
     <Link
       href={postUrl}
-      className="group card bg-base-200 hover:bg-base-300 transition-all duration-300 hover:shadow-xl"
+      className="group card bg-base-100 transition-all duration-300 hover:shadow-sm border border-primary/20"
     >
       <div className="card-body p-6">
         {/* Date and Reading Time */}
@@ -351,7 +383,7 @@ function BlogCard({ post }) {
             {frontmatter.tags.slice(0, 3).map((tag) => (
               <span
                 key={tag}
-                className="badge badge-sm badge-ghost text-base-content/60"
+                className="badge badge-sm badge-outline badge-primary"
               >
                 {tag}
               </span>

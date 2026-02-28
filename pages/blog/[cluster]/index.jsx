@@ -20,19 +20,25 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 const MDXComponents = {
   h1: (props) => (
     <h1
-      className={`${plusJakartaSans.className} text-3xl md:text-4xl font-bold mb-6 mt-8 text-base-content`}
+      className={`${plusJakartaSans.className} text-3xl md:text-4xl font-bold mb-6 mt-8 text-base-content scroll-mt-20`}
       {...props}
     />
   ),
   h2: (props) => (
     <h2
-      className={`${plusJakartaSans.className} text-2xl md:text-3xl font-bold mb-4 mt-8 text-base-content`}
+      className={`${plusJakartaSans.className} text-2xl md:text-3xl font-bold mb-4 mt-8 text-base-content scroll-mt-20`}
       {...props}
     />
   ),
   h3: (props) => (
     <h3
-      className={`${plusJakartaSans.className} text-xl md:text-2xl font-semibold mb-3 mt-6 text-base-content`}
+      className={`${plusJakartaSans.className} text-xl md:text-2xl font-semibold mb-3 mt-6 text-base-content scroll-mt-20`}
+      {...props}
+    />
+  ),
+  h4: (props) => (
+    <h4
+      className={`${plusJakartaSans.className} text-lg md:text-xl font-semibold mb-2 mt-4 text-base-content scroll-mt-20`}
       {...props}
     />
   ),
@@ -278,8 +284,10 @@ export default function PillarPage({
       <Navbar />
 
       <main className="flex-1">
-        <article className="w-full py-12 px-4">
-          <div className="max-w-4xl mx-auto">
+        {/* Wrapper for content + ToC */}
+        <div className="relative w-full max-w-7xl mx-auto px-4 py-12">
+          {/* Main content - centered */}
+          <article className="w-full max-w-3xl mx-auto">
             {/* Breadcrumb */}
             <nav className="text-sm mb-8">
               <Link
@@ -329,9 +337,6 @@ export default function PillarPage({
               </div>
             )}
 
-            {/* Table of Contents */}
-            <TableOfContents />
-
             {/* Article Content */}
             <div className="prose prose-lg max-w-none">
               <MDXRemote {...mdxSource} components={MDXComponents} />
@@ -353,24 +358,98 @@ export default function PillarPage({
               </p>
             </div>
 
-            {/* Product Bridge */}
-            <div className="mt-8 p-6 bg-primary/5 border border-primary/20 rounded-lg">
-              <h4
-                className={`${plusJakartaSans.className} font-bold mb-2 text-base-content`}
-              >
-                A Simple Tool for Releasing Thoughts
-              </h4>
-              <p className="text-sm text-base-content/70 mb-4">
-                If you find yourself caught in mental loops, Pippin offers a
-                minimal way to externalize your thoughts. Write them down, lock
-                them away, and let your mind rest.
-              </p>
-              <Link href="/" className="btn btn-primary btn-sm">
-                Learn More About Pippin
-              </Link>
+            {/* CTA Section */}
+            <div className="mt-12 p-8 bg-linear-to-r from-primary/10 to-primary/5 border-2 border-primary/30 rounded-xl">
+              <div className="text-center mb-6">
+                <span className="inline-block text-4xl mb-3">✨</span>
+                <h3
+                  className={`${plusJakartaSans.className} text-2xl md:text-3xl font-bold mb-3 text-base-content`}
+                >
+                  Try a 5-Minute Brain Dump Before Sleep
+                </h3>
+                <p className="text-base-content/70 mb-6 max-w-2xl mx-auto">
+                  Tonight, set aside 5 minutes before bed. Open Pippin and write
+                  down everything circulating in your mind—no filtering, no
+                  organizing, just dump it all out. Watch how your mind settles
+                  when your thoughts are externalized and locked away.
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                <div className="flex-1 sm:flex-none">
+                  <div className="card bg-base-100/80 hover:bg-base-100 transition-colors">
+                    <div className="card-body items-center text-center p-4">
+                      <div className="text-3xl mb-2">📝</div>
+                      <h4
+                        className={`${plusJakartaSans.className} font-bold text-sm text-base-content`}
+                      >
+                        Step 1: Write
+                      </h4>
+                      <p className="text-xs text-base-content/60">
+                        Brain dump everything in Pippin
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex-1 sm:flex-none">
+                  <div className="card bg-base-100/80 hover:bg-base-100 transition-colors">
+                    <div className="card-body items-center text-center p-4">
+                      <div className="text-3xl mb-2">🔒</div>
+                      <h4
+                        className={`${plusJakartaSans.className} font-bold text-sm text-base-content`}
+                      >
+                        Step 2: Lock Away
+                      </h4>
+                      <p className="text-xs text-base-content/60">
+                        Tap lock to secure your thoughts
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex-1 sm:flex-none">
+                  <div className="card bg-base-100/80 hover:bg-base-100 transition-colors">
+                    <div className="card-body items-center text-center p-4">
+                      <div className="text-3xl mb-2">😴</div>
+                      <h4
+                        className={`${plusJakartaSans.className} font-bold text-sm text-base-content`}
+                      >
+                        Step 3: Let Go
+                      </h4>
+                      <p className="text-xs text-base-content/60">
+                        Rest knowing thoughts are safe
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-center">
+                <a
+                  href="https://apps.apple.com/us/app/pippin-overthinking-journal/id6755423327"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block"
+                >
+                  <img
+                    src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us"
+                    alt="Download on the App Store"
+                    className="w-[200px] h-auto object-contain"
+                  />
+                </a>
+              </div>
             </div>
-          </div>
-        </article>
+          </article>
+
+          {/* Floating ToC - Desktop */}
+          <aside className="hidden lg:block absolute right-0 top-0 w-64 h-full pointer-events-none">
+            <div className="sticky top-24 pointer-events-auto">
+              <TableOfContents />
+            </div>
+          </aside>
+        </div>
+
+        {/* Table of Contents - Mobile */}
+        <div className="block lg:hidden">
+          <TableOfContents />
+        </div>
 
         {/* Related Articles in This Topic */}
         {clusterPosts && clusterPosts.length > 0 && (
@@ -435,10 +514,7 @@ export async function getStaticProps({ params }) {
 
   // Get all posts in this cluster (exclude pillar)
   const clusterPosts = getPostsByCluster(cluster)
-    .filter(
-      (post) =>
-        post.slug !== "index" && post.frontmatter.status === "published",
-    )
+    .filter((post) => !post.isPillar && post.frontmatter.status === "published")
     .sort((a, b) => new Date(b.frontmatter.date) - new Date(a.frontmatter.date))
     .map((post) => ({
       slug: post.slug,
