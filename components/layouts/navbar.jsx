@@ -62,6 +62,12 @@ export function Navbar({ bg, page }) {
                 Overthinking Guide
               </Link>
               <Link
+                href="/overthinking-decoder"
+                className="hidden md:block text-base md:text-lg font-semibold text-base-content/70 hover:text-primary transition-colors"
+              >
+                Thought Decoder
+              </Link>
+              <Link
                 href="/blog"
                 className="text-base md:text-lg font-semibold text-base-content/70 hover:text-primary transition-colors"
               >

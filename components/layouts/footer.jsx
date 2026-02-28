@@ -58,6 +58,13 @@ export function Footer({ bg, showBadgeMarquee = false }) {
               <span>Overthinking at Night Guide</span>
             </Link>
             <Link
+              href="/overthinking-decoder"
+              className="font-semibold text-lg text-base-content/70 hover:text-primary transition-colors flex items-center justify-center md:justify-start gap-2"
+            >
+              <span>🔍</span>
+              <span>2AM Thought Decoder</span>
+            </Link>
+            <Link
               href="/blog"
               className="font-semibold text-lg text-base-content/70 hover:text-primary transition-colors"
             >
