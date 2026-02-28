@@ -77,10 +77,11 @@ export default function Privacy() {
       <NextSeo
         title="Privacy Policy – Pippin"
         description="Read how Pippin protects your privacy, handles your data, and keeps your journal secure. We value your trust and are committed to transparency."
+        canonical="https://www.getpippin.app/privacy"
         openGraph={{
           type: "website",
           locale: "en_US",
-          url: "https://getpippin.app/privacy",
+          url: "https://www.getpippin.app/privacy",
           siteName: "Pippin",
           title: "Privacy Policy – Pippin",
           description:

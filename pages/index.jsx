@@ -19,10 +19,11 @@ export default function PippinHomePage() {
       <NextSeo
         title="Pippin – Overthinking Journal"
         description="Pippin is a minimalist journal app for overthinkers. The simplest way to quiet your mind: write it down, lock it away, and let it go."
+        canonical="https://www.getpippin.app/"
         openGraph={{
           type: "website",
           locale: "en_US",
-          url: "https://getpippin.app/",
+          url: "https://www.getpippin.app/",
           siteName: "Pippin",
           title: "Pippin – Overthinking Journal",
           description:

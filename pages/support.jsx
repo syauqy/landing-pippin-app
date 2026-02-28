@@ -64,10 +64,11 @@ export default function SupportPage() {
       <NextSeo
         title="Support & Feedback – Pippin"
         description="Have feedback or questions about Pippin? We'd love to hear from you. Send us a message and we'll get back to you soon."
+        canonical="https://www.getpippin.app/support"
         openGraph={{
           type: "website",
           locale: "en_US",
-          url: "https://getpippin.app/support",
+          url: "https://www.getpippin.app/support",
           siteName: "Pippin",
           title: "Support & Feedback – Pippin",
           description:

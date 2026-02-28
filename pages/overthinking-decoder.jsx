@@ -133,11 +133,11 @@ export default function OverthinkingDecoderPage() {
       <NextSeo
         title="What Is Your 2AM Thought? | Free Overthinking Decoder"
         description="Can't sleep because of racing thoughts? Paste your 2AM thought and understand what your mind may be trying to protect."
-        canonical="https://getpippin.app/overthinking-decoder"
+        canonical="https://www.getpippin.app/overthinking-decoder"
         openGraph={{
           type: "website",
           locale: "en_US",
-          url: "https://getpippin.app/overthinking-decoder",
+          url: "https://www.getpippin.app/overthinking-decoder",
           siteName: "Pippin",
           title: "What Is Your 2AM Thought? | Free Overthinking Decoder",
           description:

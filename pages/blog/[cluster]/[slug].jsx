@@ -186,7 +186,7 @@ export default function BlogPostPage({
 
   const { slug, frontmatter, readingTime } = post;
   const formattedDate = format(new Date(frontmatter.date), "MMMM d, yyyy");
-  const canonicalUrl = `https://getpippin.app/blog/${cluster}/${slug}`;
+  const canonicalUrl = `https://www.getpippin.app/blog/${cluster}/${slug}`;
 
   // Get cluster info for breadcrumbs
   const clusterInfo = getCluster(cluster);
@@ -203,19 +203,19 @@ export default function BlogPostPage({
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://getpippin.app",
+        item: "https://www.getpippin.app",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Blog",
-        item: "https://getpippin.app/blog",
+        item: "https://www.getpippin.app/blog",
       },
       {
         "@type": "ListItem",
         position: 3,
         name: clusterName,
-        item: `https://getpippin.app/blog/${cluster}`,
+        item: `https://www.getpippin.app/blog/${cluster}`,
       },
       {
         "@type": "ListItem",

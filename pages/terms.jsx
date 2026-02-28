@@ -77,10 +77,11 @@ export default function Terms() {
       <NextSeo
         title="Terms of Service – Pippin"
         description="Review the terms and conditions for using Pippin. Understand your rights, responsibilities, and our commitment to your privacy and security."
+        canonical="https://www.getpippin.app/terms"
         openGraph={{
           type: "website",
           locale: "en_US",
-          url: "https://getpippin.app/terms",
+          url: "https://www.getpippin.app/terms",
           siteName: "Pippin",
           title: "Terms of Service – Pippin",
           description:

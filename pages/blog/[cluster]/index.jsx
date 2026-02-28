@@ -161,7 +161,7 @@ export default function PillarPage({
 }) {
   const { frontmatter, readingTime } = pillar;
   const formattedDate = format(new Date(frontmatter.date), "MMMM d, yyyy");
-  const canonicalUrl = `https://getpippin.app/blog/${cluster}`;
+  const canonicalUrl = `https://www.getpippin.app/blog/${cluster}`;
   const clusterTitle = cluster
     .replace(/-/g, " ")
     .replace(/\b\w/g, (l) => l.toUpperCase());

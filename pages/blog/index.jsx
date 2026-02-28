@@ -51,11 +51,11 @@ export default function BlogIndexPage({ posts, tags }) {
       <NextSeo
         title="Overthinking Education – Pippin Blog"
         description="Calm, research-backed insights on overthinking, racing thoughts, and mental quiet. Learn practical ways to understand and manage your mind."
-        canonical="https://getpippin.app/blog"
+        canonical="https://www.getpippin.app/blog"
         openGraph={{
           type: "website",
           locale: "en_US",
-          url: "https://getpippin.app/blog",
+          url: "https://www.getpippin.app/blog",
           siteName: "Pippin",
           title: "Overthinking Education – Pippin Blog",
           description:
