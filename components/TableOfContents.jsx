@@ -12,11 +12,11 @@ export default function TableOfContents() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    // Extract all H2, H3, and H4 headings from the article
+    // Extract all H2 headings from the article
     const article = document.querySelector("article");
     if (!article) return;
 
-    const headingElements = Array.from(article.querySelectorAll("h2, h3, h4"));
+    const headingElements = Array.from(article.querySelectorAll("h2"));
     const extractedHeadings = headingElements.map((heading) => ({
       id: heading.id,
       text: heading.textContent,
@@ -107,13 +107,7 @@ export default function TableOfContents() {
                 <button
                   key={heading.id}
                   onClick={() => handleClick(heading.id)}
-                  className={`block w-full text-left transition-colors py-2 px-3 rounded-lg ${
-                    heading.level === 4
-                      ? "pl-9 text-xs"
-                      : heading.level === 3
-                        ? "pl-6 text-sm"
-                        : "text-base font-medium"
-                  } ${
+                  className={`block w-full text-left transition-colors py-2 px-3 rounded-lg text-sm ${
                     activeId === heading.id
                       ? "bg-primary/10 text-primary font-semibold"
                       : "text-base-content/70 hover:bg-base-200 hover:text-primary"
@@ -141,12 +135,6 @@ export default function TableOfContents() {
                 key={heading.id}
                 onClick={() => handleClick(heading.id)}
                 className={`block w-full text-left transition-all py-1.5 px-2 rounded text-sm ${
-                  heading.level === 4
-                    ? "pl-6 text-xs"
-                    : heading.level === 3
-                      ? "pl-4"
-                      : "font-medium"
-                } ${
                   activeId === heading.id
                     ? "text-primary font-semibold border-l-2 border-primary bg-primary/5"
                     : "text-base-content/70 hover:text-primary hover:bg-base-200/50 border-l-2 border-transparent"
