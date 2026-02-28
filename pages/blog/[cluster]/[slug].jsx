@@ -515,7 +515,12 @@ export async function getStaticPaths() {
   const posts = getAllPosts();
 
   const paths = posts
-    .filter((post) => post.frontmatter.status === "published" && post.cluster)
+    .filter(
+      (post) =>
+        post.frontmatter.status === "published" &&
+        post.cluster &&
+        !post.isPillar, // Exclude pillar (index.mdx) — served by [cluster]/index.jsx
+    )
     .map((post) => ({
       params: {
         cluster: post.cluster,

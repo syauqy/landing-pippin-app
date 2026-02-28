@@ -45,14 +45,14 @@ const nextConfig = {
           source: "/deals",
           destination:
             "https://apps.apple.com/redeem?ctx=offercodes&id=6755423327&code=PIPPIN2025HOLIDAYMONTHLY",
-          permanent: false, // Use true for 301 permanent redirects
+          permanent: false,
         },
-        // Add more redirects here:
-        // {
-        //   source: '/promo',
-        //   destination: 'https://example.com/promo',
-        //   permanent: false,
-        // },
+        // Redirect pillar /index slug to the cluster URL (avoids 404 from old sitemap entries)
+        {
+          source: "/blog/:cluster/index",
+          destination: "/blog/:cluster",
+          permanent: true,
+        },
       ];
     },
 
@@ -91,7 +91,8 @@ const nextConfig = {
           headers: [
             {
               key: "Access-Control-Allow-Origin",
-              value: process.env.ALLOWED_CORS_ORIGIN || "https://getpippin.app",
+              value:
+                process.env.ALLOWED_CORS_ORIGIN || "https://www.getpippin.app",
             },
             {
               key: "Access-Control-Allow-Methods",
@@ -128,8 +129,8 @@ const nextConfig = {
           (resource) => {
             // Set the request to a data URI representing an empty module
             resource.request = "data:text/javascript,module.exports = {};";
-          }
-        )
+          },
+        ),
       );
     }
 
