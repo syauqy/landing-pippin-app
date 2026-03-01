@@ -30,9 +30,10 @@ export default async function handler(req, res) {
 
   // SECURITY: Check authentication
   // Check for Vercel Cron header (case-insensitive, multiple formats)
-  const cronHeader = req.headers["x-vercel-cron"] || 
-                     req.headers["X-Vercel-Cron"] || 
-                     req.headers["x-vercel-trace-id"]; // Backup: Vercel always includes trace ID
+  const cronHeader =
+    req.headers["x-vercel-cron"] ||
+    req.headers["X-Vercel-Cron"] ||
+    req.headers["x-vercel-trace-id"]; // Backup: Vercel always includes trace ID
   const isVercelCron = cronHeader !== undefined;
   const manualSecret = req.query.secret;
 
@@ -41,7 +42,9 @@ export default async function handler(req, res) {
     method: req.method,
     cronHeader: !!cronHeader,
     hasSecret: !!manualSecret,
-    allHeaders: Object.keys(req.headers).filter(h => h.includes("vercel") || h.includes("cron")),
+    allHeaders: Object.keys(req.headers).filter(
+      (h) => h.includes("vercel") || h.includes("cron"),
+    ),
   });
 
   if (!isVercelCron && manualSecret !== process.env.CRON_SECRET) {
@@ -49,7 +52,9 @@ export default async function handler(req, res) {
       ip: req.headers["x-forwarded-for"] || req.socket.remoteAddress,
       isVercelCron,
       hasSecret: !!manualSecret,
-      allHeaders: Object.keys(req.headers).filter(h => h.includes("vercel") || h.includes("cron")),
+      allHeaders: Object.keys(req.headers).filter(
+        (h) => h.includes("vercel") || h.includes("cron"),
+      ),
     });
     return res.status(401).json({
       error: "Unauthorized",
