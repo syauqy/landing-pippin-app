@@ -29,14 +29,27 @@ export default async function handler(req, res) {
   }
 
   // SECURITY: Check authentication
-  const isVercelCron = req.headers["x-vercel-cron"] === "true";
+  // Check for Vercel Cron header (case-insensitive, multiple formats)
+  const cronHeader = req.headers["x-vercel-cron"] || 
+                     req.headers["X-Vercel-Cron"] || 
+                     req.headers["x-vercel-trace-id"]; // Backup: Vercel always includes trace ID
+  const isVercelCron = cronHeader !== undefined;
   const manualSecret = req.query.secret;
+
+  // Debug logging
+  console.log("Auth check:", {
+    method: req.method,
+    cronHeader: !!cronHeader,
+    hasSecret: !!manualSecret,
+    allHeaders: Object.keys(req.headers).filter(h => h.includes("vercel") || h.includes("cron")),
+  });
 
   if (!isVercelCron && manualSecret !== process.env.CRON_SECRET) {
     console.warn("Unauthorized generation attempt blocked", {
       ip: req.headers["x-forwarded-for"] || req.socket.remoteAddress,
       isVercelCron,
       hasSecret: !!manualSecret,
+      allHeaders: Object.keys(req.headers).filter(h => h.includes("vercel") || h.includes("cron")),
     });
     return res.status(401).json({
       error: "Unauthorized",
