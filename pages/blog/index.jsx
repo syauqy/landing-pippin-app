@@ -378,7 +378,7 @@ function BlogCard({ post }) {
         )}
 
         {/* Tags */}
-        {frontmatter.tags && frontmatter.tags.length > 0 && (
+        {Array.isArray(frontmatter.tags) && frontmatter.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-auto">
             {frontmatter.tags.slice(0, 3).map((tag) => (
               <span
