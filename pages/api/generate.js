@@ -31,26 +31,24 @@ export default async function handler(req, res) {
   }
 
   // SECURITY: Check authentication
-  // Vercel cron requests come as GET with x-vercel-trace-id header
-  // Manual triggers use ?secret=CRON_SECRET parameter
-  const hasVercelTraceId = !!req.headers["x-vercel-trace-id"];
-  const isVercelCron = hasVercelTraceId && req.method === "GET";
+  // Vercel cron requests always send User-Agent: vercel-cron/1.0
+  const userAgent = req.headers["user-agent"] || "";
+  const isVercelCron = userAgent.startsWith("vercel-cron");
   const manualSecret = req.query.secret;
 
   // Debug logging
   console.log("Auth check:", {
     method: req.method,
-    hasVercelTraceId,
+    userAgent,
     isVercelCron,
     hasSecret: !!manualSecret,
-    traceId: req.headers["x-vercel-trace-id"]?.substring(0, 20) + "...",
   });
 
   if (!isVercelCron && manualSecret !== process.env.CRON_SECRET) {
     console.warn("Unauthorized generation attempt blocked", {
       ip: req.headers["x-forwarded-for"] || req.socket.remoteAddress,
       method: req.method,
-      hasVercelTraceId,
+      userAgent,
       isVercelCron,
       hasSecret: !!manualSecret,
     });
