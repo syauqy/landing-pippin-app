@@ -23,9 +23,11 @@ import path from "path";
  * - Only accepts POST requests
  */
 export default async function handler(req, res) {
-  // Only allow POST requests
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+  // Allow both GET (Vercel cron) and POST (manual triggers)
+  if (!["GET", "POST"].includes(req.method)) {
+    return res
+      .status(405)
+      .json({ error: "Method not allowed. Use GET or POST." });
   }
 
   // SECURITY: Check authentication
