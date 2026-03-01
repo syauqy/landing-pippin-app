@@ -31,32 +31,28 @@ export default async function handler(req, res) {
   }
 
   // SECURITY: Check authentication
-  // Check for Vercel Cron header (case-insensitive, multiple formats)
-  const cronHeader =
-    req.headers["x-vercel-cron"] ||
-    req.headers["X-Vercel-Cron"] ||
-    req.headers["x-vercel-trace-id"]; // Backup: Vercel always includes trace ID
-  const isVercelCron = cronHeader !== undefined;
+  // Vercel cron requests come as GET with x-vercel-trace-id header
+  // Manual triggers use ?secret=CRON_SECRET parameter
+  const hasVercelTraceId = !!req.headers["x-vercel-trace-id"];
+  const isVercelCron = hasVercelTraceId && req.method === "GET";
   const manualSecret = req.query.secret;
 
   // Debug logging
   console.log("Auth check:", {
     method: req.method,
-    cronHeader: !!cronHeader,
+    hasVercelTraceId,
+    isVercelCron,
     hasSecret: !!manualSecret,
-    allHeaders: Object.keys(req.headers).filter(
-      (h) => h.includes("vercel") || h.includes("cron"),
-    ),
+    traceId: req.headers["x-vercel-trace-id"]?.substring(0, 20) + "...",
   });
 
   if (!isVercelCron && manualSecret !== process.env.CRON_SECRET) {
     console.warn("Unauthorized generation attempt blocked", {
       ip: req.headers["x-forwarded-for"] || req.socket.remoteAddress,
+      method: req.method,
+      hasVercelTraceId,
       isVercelCron,
       hasSecret: !!manualSecret,
-      allHeaders: Object.keys(req.headers).filter(
-        (h) => h.includes("vercel") || h.includes("cron"),
-      ),
     });
     return res.status(401).json({
       error: "Unauthorized",
@@ -415,6 +411,16 @@ Return ONLY a JSON object (no markdown, no code blocks, no extra text):
  * Create MDX file content with frontmatter
  */
 function createMDXContent(article) {
+  // Format tags as YAML array
+  const tagsYaml = Array.isArray(article.tags)
+    ? article.tags.map((tag) => `  - ${tag}`).join("\n")
+    : "  - uncategorized";
+
+  // Format categories as YAML array
+  const categoriesYaml = Array.isArray(article.categories)
+    ? article.categories.map((cat) => `  - ${cat}`).join("\n")
+    : "  - general";
+
   const frontmatter = `---
 title: "${article.title}"
 slug: "${article.slug}"
@@ -424,8 +430,10 @@ author: "Pippin"
 image: "/pippin-banner.jpg"
 status: "published"
 cluster: "night-overthinking"
-tags: ${JSON.stringify(article.tags)}
-categories: ${JSON.stringify(article.categories)}
+tags:
+${tagsYaml}
+categories:
+${categoriesYaml}
 readingTime: ${Math.ceil(article.content.split(/\s+/).length / 200)}
 ---
 
