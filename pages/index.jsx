@@ -7,6 +7,7 @@ import { Footer } from "@/components/layouts/footer";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import FAQAccordion from "@/components/FAQAccordion";
 import { faqData } from "@/lib/faqdata";
+import { AppStoreButton } from "@/components/AppStoreButton";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   weight: "800",
@@ -74,18 +75,9 @@ export default function PippinHomePage() {
             <WaitlistFormHero />
           </div> */}
           <div className="flex flex-col items-center gap-2">
-            <a
-              href="https://apps.apple.com/us/app/pippin-overthinking-journal/id6755423327"
-              className="mt-4 inline-block"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us"
-                alt="Download on the App Store"
-                className="w-[246px] h-15 align-vertical-middle object-contain"
-              />
-            </a>
+            <div className="mt-4">
+              <AppStoreButton />
+            </div>
             <span className="text-slate-500 text-sm">
               No credit card required
             </span>

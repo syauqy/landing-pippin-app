@@ -1,6 +1,10 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { getAllPosts } from "@/lib/blog";
-import { injectInternalLinks, getAllLinkedSlugs, getInternalLinksMap } from "@/lib/internalLinks";
+import {
+  injectInternalLinks,
+  getAllLinkedSlugs,
+  getInternalLinksMap,
+} from "@/lib/internalLinks";
 import {
   getRandomReferences,
   getSuggestedCategories,
@@ -115,11 +119,18 @@ export default async function handler(req, res) {
           ? `pillar guide about ${link.cluster?.replace(/-/g, " ")}`
           : link.title,
       }));
-    console.log(`Step 1.5: Prepared ${linksForAI.length} internal links for injection`);
+    console.log(
+      `Step 1.5: Prepared ${linksForAI.length} internal links for injection`,
+    );
 
     // Step 2: Generate structured article
     console.log("Step 2: Generating article content...");
-    const article = await generateArticle(model, keyword, existingSlugs, linksForAI);
+    const article = await generateArticle(
+      model,
+      keyword,
+      existingSlugs,
+      linksForAI,
+    );
 
     if (!article) {
       return res.status(500).json({ error: "Failed to generate article" });
@@ -140,11 +151,13 @@ export default async function handler(req, res) {
     // Step 4: Count AI-injected links (links were directly written by AI into content)
     console.log("Step 4: Counting AI-injected links...");
     const markdownLinkRegex = /\[([^\]]+)\]\(\/blog\/[^)]+\)/g;
-    const injectedLinks = [...sanitized.content.matchAll(markdownLinkRegex)].map(
-      (m) => ({ anchor: m[1], url: m[0].match(/\(([^)]+)\)/)?.[1] })
-    );
+    const injectedLinks = [
+      ...sanitized.content.matchAll(markdownLinkRegex),
+    ].map((m) => ({ anchor: m[1], url: m[0].match(/\(([^)]+)\)/)?.[1] }));
     const finalContent = sanitized.content;
-    console.log(`Step 4: Found ${injectedLinks.length} internal links in content`);
+    console.log(
+      `Step 4: Found ${injectedLinks.length} internal links in content`,
+    );
 
     // Step 5: Create MDX file structure (disclaimer is hardcoded in template)
     const mdxContent = createMDXContent({
@@ -300,20 +313,26 @@ Return ONLY a JSON object with this structure (no markdown, no code blocks):
 /**
  * Generate structured article content
  */
-async function generateArticle(model, keyword, existingSlugs, internalLinks = []) {
+async function generateArticle(
+  model,
+  keyword,
+  existingSlugs,
+  internalLinks = [],
+) {
   // Get suggested reference categories
   const suggestedCategories = getSuggestedCategories(keyword.title);
   const references = getRandomReferences(2);
 
   // Build internal links instruction for the prompt
-  const linksInstruction = internalLinks.length > 0
-    ? `
+  const linksInstruction =
+    internalLinks.length > 0
+      ? `
 INTERNAL LINKS TO INCLUDE:
 Naturally incorporate 2-3 of these markdown links into the article body where contextually relevant.
 Each link should appear as anchor text within a sentence - do NOT force them awkwardly.
 ${internalLinks.map((link) => `- [${link.anchor}](${link.url}) — ${link.description}`).join("\n")}
 `
-    : "";
+      : "";
 
   const prompt = `
 Write a blog article about: "${keyword.title}"

@@ -4,6 +4,7 @@ import { serialize } from "next-mdx-remote/serialize";
 import { NextSeo, ArticleJsonLd } from "next-seo";
 import { Navbar } from "@/components/layouts/navbar";
 import { Footer } from "@/components/layouts/footer";
+import { AppStoreButton } from "@/components/AppStoreButton";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { getPillarPage, getPostsByCluster, getAllClusters } from "@/lib/blog";
 import { format } from "date-fns";
@@ -422,18 +423,7 @@ export default function PillarPage({
                 </div>
               </div>
               <div className="flex justify-center">
-                <a
-                  href="https://apps.apple.com/us/app/pippin-overthinking-journal/id6755423327"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block"
-                >
-                  <img
-                    src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us"
-                    alt="Download on the App Store"
-                    className="w-[200px] h-auto object-contain"
-                  />
-                </a>
+                <AppStoreButton />
               </div>
             </div>
           </article>
