@@ -398,7 +398,10 @@ Return a JSON object with these exact fields:
       console.error("Failed to parse article JSON:");
       console.error("Parse error:", parseError.message);
       console.error("First 500 chars:", response.substring(0, 500));
-      console.error("Last 500 chars:", response.substring(response.length - 500));
+      console.error(
+        "Last 500 chars:",
+        response.substring(response.length - 500),
+      );
       return null;
     }
   } catch (error) {

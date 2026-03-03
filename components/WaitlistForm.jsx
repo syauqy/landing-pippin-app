@@ -1,5 +1,6 @@
 import { useState } from "react";
 import clsx from "clsx";
+import { trackFormSubmit, trackEvent } from "@/components/PostHogPageview";
 
 export function WaitlistForm({ position }) {
   const [email, setEmail] = useState("");
@@ -11,6 +12,12 @@ export function WaitlistForm({ position }) {
     e.preventDefault();
     setLoading(true);
     setError("");
+    
+    // Track form submission attempt
+    trackFormSubmit("waitlist_signup", {
+      email_domain: email.split("@")[1] || "unknown",
+    });
+    
     try {
       const res = await fetch("/api/waitlist", {
         method: "POST",
@@ -19,12 +26,24 @@ export function WaitlistForm({ position }) {
       });
       if (res.ok) {
         setSuccess(true);
+        // Track successful signup
+        trackEvent("waitlist_signup_success", {
+          email_domain: email.split("@")[1] || "unknown",
+        });
       } else {
         const data = await res.json();
         setError(data.error || "Something went wrong.");
+        // Track signup error
+        trackEvent("waitlist_signup_error", {
+          error_message: data.error || "Unknown error",
+        });
       }
     } catch (err) {
       setError("Network error. Please try again.");
+      // Track network error
+      trackEvent("waitlist_signup_error", {
+        error_message: "Network error",
+      });
     }
     setLoading(false);
   }
