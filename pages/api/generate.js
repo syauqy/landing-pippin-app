@@ -94,6 +94,11 @@ export default async function handler(req, res) {
     // Initialize Gemini AI
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+    // JSON mode model - guarantees valid JSON output, eliminates parse errors
+    const jsonModel = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash",
+      generationConfig: { responseMimeType: "application/json" },
+    });
 
     // Step 1: Generate long-tail keyword
     console.log("Step 1: Generating keyword...");
@@ -126,7 +131,7 @@ export default async function handler(req, res) {
     // Step 2: Generate structured article
     console.log("Step 2: Generating article content...");
     const article = await generateArticle(
-      model,
+      jsonModel,
       keyword,
       existingSlugs,
       linksForAI,
@@ -359,13 +364,11 @@ Structure:
 3. Practical insight (not prescriptive)
 4. Closing reflection (not "in conclusion")
 
-IMPORTANT: Return ONLY valid JSON. Escape all quotes and special characters in the content field.
-
-Return ONLY a JSON object (no markdown, no code blocks, no extra text):
+Return a JSON object with these exact fields:
 {
   "title": "${keyword.title}",
   "description": "120-160 character meta description",
-  "content": "full markdown article content with properly escaped quotes",
+  "content": "full markdown article content",
   "tags": ["tag1", "tag2", "tag3"],
   "categories": ["category1", "category2"]
 }
@@ -375,70 +378,27 @@ Return ONLY a JSON object (no markdown, no code blocks, no extra text):
     const result = await model.generateContent(prompt);
     const response = result.response.text();
 
-    // Try multiple JSON extraction strategies
-    let article = null;
-
-    // Strategy 1: Direct JSON parse (if response is clean JSON)
+    // JSON mode guarantees valid JSON - parse directly
     try {
-      article = JSON.parse(response);
-      return article;
-    } catch (e) {
-      // Continue to Strategy 2
-    }
-
-    // Strategy 2: Extract JSON from markdown/code blocks
-    const jsonMatch = response.match(/\{[\s\S]+\}/);
-    if (!jsonMatch) {
-      console.error("No JSON object found in article response");
-      console.error("Response preview:", response.substring(0, 500));
-      return null;
-    }
-
-    let cleaned = jsonMatch[0]
-      .replace(/,\s*\}/g, "}") // Remove trailing commas in objects
-      .replace(/,\s*\]/g, "]"); // Remove trailing commas in arrays
-
-    // Strategy 3: Try parsing the cleaned JSON
-    try {
-      article = JSON.parse(cleaned);
+      const article = JSON.parse(response);
       return article;
     } catch (parseError) {
-      // Strategy 4: Try to fix common JSON issues
-      console.error("JSON parse failed, attempting repairs...");
-
-      // Fix unescaped quotes in content field
-      try {
-        // Extract the content field and re-escape it
-        const contentMatch = cleaned.match(
-          /"content":\s*"([\s\S]*?)",?\s*"tags"/,
-        );
-        if (contentMatch) {
-          const rawContent = contentMatch[1];
-          // Re-escape the content
-          const escapedContent = rawContent
-            .replace(/\\/g, "\\\\") // Escape backslashes
-            .replace(/"/g, '\\"') // Escape quotes
-            .replace(/\n/g, "\\n") // Escape newlines
-            .replace(/\r/g, "\\r") // Escape carriage returns
-            .replace(/\t/g, "\\t"); // Escape tabs
-
-          cleaned = cleaned.replace(
-            /"content":\s*"[\s\S]*?",?\s*"tags"/,
-            `"content": "${escapedContent}", "tags"`,
-          );
-
-          article = JSON.parse(cleaned);
-          console.log("Successfully repaired JSON");
+      // Fallback: extract JSON object in case of unexpected wrapping
+      console.error("JSON parse failed (unexpected), attempting extraction...");
+      const jsonMatch = response.match(/\{[\s\S]+\}/);
+      if (jsonMatch) {
+        try {
+          const article = JSON.parse(jsonMatch[0]);
+          console.log("Successfully extracted JSON from response");
           return article;
+        } catch (e) {
+          // ignore
         }
-      } catch (repairError) {
-        console.error("JSON repair failed:", repairError.message);
       }
-
       console.error("Failed to parse article JSON:");
       console.error("Parse error:", parseError.message);
-      console.error("First 500 chars:", cleaned.substring(0, 500));
-      console.error("Last 500 chars:", cleaned.substring(cleaned.length - 500));
+      console.error("First 500 chars:", response.substring(0, 500));
+      console.error("Last 500 chars:", response.substring(response.length - 500));
       return null;
     }
   } catch (error) {
