@@ -1,0 +1,40 @@
+name: Generate Blog Content
+
+on:
+  schedule:
+    # Runs at 03:00 UTC daily — same as previous Vercel cron schedule
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+    # Allow manual triggering from the GitHub Actions UI
+
+jobs:
+  generate:
+    name: Trigger AI Content Generation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Call /api/generate
+        id: call_api
+        run: |
+          echo "Calling /api/generate at $(date -u)"
+          RESPONSE=$(curl -s -o response.txt -w "%{http_code}" \
+            -X GET \
+            "${{ secrets.PRODUCTION_URL }}/api/generate?secret=${{ secrets.CRON_SECRET }}")
+
+          echo "HTTP status: $RESPONSE"
+          echo "Response body:"
+          cat response.txt
+
+          if [ "$RESPONSE" -ne 200 ]; then
+            echo "ERROR: API returned non-200 status code: $RESPONSE"
+            exit 1
+          fi
+
+      - name: Upload response log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-response-${{ github.run_id }}
+          path: response.txt
+          retention-days: 30

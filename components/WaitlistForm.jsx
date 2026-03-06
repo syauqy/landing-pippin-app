@@ -12,12 +12,12 @@ export function WaitlistForm({ position }) {
     e.preventDefault();
     setLoading(true);
     setError("");
-    
+
     // Track form submission attempt
     trackFormSubmit("waitlist_signup", {
       email_domain: email.split("@")[1] || "unknown",
     });
-    
+
     try {
       const res = await fetch("/api/waitlist", {
         method: "POST",
@@ -65,7 +65,7 @@ export function WaitlistForm({ position }) {
     <form
       className={clsx(
         position === "left" ? "justify-start" : "justify-center",
-        "flex flex-col lg:flex-row gap-3 lg:gap-0 items-center"
+        "flex flex-col lg:flex-row gap-3 lg:gap-0 items-center",
       )}
       onSubmit={handleSubmit}
     >
