@@ -48,6 +48,7 @@ resources/ios/**/*
 
 # Audit & implementation docs (private)
 /AUDIT_REPORT.md
+overthinking-decoder.md
 /ACTION_PLAN.md
 /AUDIT_SUMMARY.md
 /IMPLEMENTATION_GUIDE.md
@@ -74,3 +75,6 @@ resources/ios/**/*
 /app-store-descriptions.md
 
 app-store-descriptions.md
+
+overthinking-decoder.md
+/overthinking-decoder.md
