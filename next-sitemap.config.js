@@ -36,10 +36,21 @@ module.exports = {
 
     // Custom transformation for blog posts to get lastmod from frontmatter
     if (urlPath.startsWith("/blog/") && urlPath.length > "/blog/".length) {
-      const slug = urlPath.split("/blog/")[1];
+      const pathParts = urlPath.split("/blog/")[1].split("/");
+      let filePath;
+
       try {
         const blogDir = path.join(process.cwd(), "contents/blog");
-        const filePath = path.join(blogDir, `${slug}.mdx`);
+
+        // Handle cluster structure: /blog/cluster/slug
+        if (pathParts.length === 2) {
+          const [cluster, slug] = pathParts;
+          filePath = path.join(blogDir, cluster, `${slug}.mdx`);
+        } else {
+          // Handle flat structure: /blog/slug
+          const slug = pathParts[0];
+          filePath = path.join(blogDir, `${slug}.mdx`);
+        }
 
         if (fs.existsSync(filePath)) {
           const content = fs.readFileSync(filePath, "utf8");

@@ -100,56 +100,90 @@ export default async function handler(req, res) {
       generationConfig: { responseMimeType: "application/json" },
     });
 
-    // Step 1: Generate long-tail keyword
-    console.log("Step 1: Generating keyword...");
-    const keyword = await generateKeyword(model, existingSlugs);
+    // RETRY LOOP: Attempt article generation up to 3 times
+    // If sanitization fails, try a different keyword
+    let keyword, article, sanitized;
+    const maxAttempts = 3;
+    const failedAttempts = [];
 
-    if (!keyword) {
-      return res
-        .status(500)
-        .json({ error: "Failed to generate unique keyword" });
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      console.log(`\n=== ATTEMPT ${attempt}/${maxAttempts} ===`);
+
+      // Step 1: Generate long-tail keyword
+      console.log("Step 1: Generating keyword...");
+      keyword = await generateKeyword(model, existingSlugs);
+
+      if (!keyword) {
+        console.error("Failed to generate unique keyword");
+        continue; // Try again
+      }
+
+      console.log(`Generated keyword: ${keyword.title}`);
+
+      // Step 1.5: Prepare internal links for the AI to include
+      const linksMap = getInternalLinksMap();
+      const linksForAI = linksMap
+        .filter((link) => link.slug !== keyword.slug)
+        .slice(0, 4)
+        .map((link) => ({
+          anchor: link.anchors[0],
+          url: link.url,
+          description: link.isPillar
+            ? `pillar guide about ${link.cluster?.replace(/-/g, " ")}`
+            : link.title,
+        }));
+      console.log(
+        `Step 1.5: Prepared ${linksForAI.length} internal links for injection`,
+      );
+
+      // Step 2: Generate structured article
+      console.log("Step 2: Generating article content...");
+      article = await generateArticle(
+        jsonModel,
+        keyword,
+        existingSlugs,
+        linksForAI,
+      );
+
+      if (!article) {
+        console.error("Failed to generate article");
+        continue; // Try again
+      }
+
+      // Step 3: Sanitize content
+      console.log("Step 3: Sanitizing content...");
+      sanitized = sanitizeContent(article.content);
+
+      if (!sanitized.isValid) {
+        // Record failure and try again
+        console.warn(
+          `Attempt ${attempt}: Content failed sanitization, will retry...`,
+          sanitized.issues,
+        );
+        failedAttempts.push({
+          attempt,
+          keyword: keyword.title,
+          issues: sanitized.issues,
+        });
+        continue; // Try again
+      }
+
+      // SUCCESS: Valid content generated
+      console.log(`✓ Attempt ${attempt}: Content passed validation!`);
+      break;
     }
 
-    console.log(`Generated keyword: ${keyword.title}`);
-
-    // Step 1.5: Prepare internal links for the AI to include
-    const linksMap = getInternalLinksMap();
-    const linksForAI = linksMap
-      .filter((link) => link.slug !== keyword.slug)
-      .slice(0, 4)
-      .map((link) => ({
-        anchor: link.anchors[0],
-        url: link.url,
-        description: link.isPillar
-          ? `pillar guide about ${link.cluster?.replace(/-/g, " ")}`
-          : link.title,
-      }));
-    console.log(
-      `Step 1.5: Prepared ${linksForAI.length} internal links for injection`,
-    );
-
-    // Step 2: Generate structured article
-    console.log("Step 2: Generating article content...");
-    const article = await generateArticle(
-      jsonModel,
-      keyword,
-      existingSlugs,
-      linksForAI,
-    );
-
-    if (!article) {
-      return res.status(500).json({ error: "Failed to generate article" });
-    }
-
-    // Step 3: Sanitize content
-    console.log("Step 3: Sanitizing content...");
-    const sanitized = sanitizeContent(article.content);
-
-    if (!sanitized.isValid) {
-      console.error("Content failed sanitization:", sanitized.issues);
+    // Check if all attempts failed
+    if (!sanitized || !sanitized.isValid) {
+      console.error(
+        "All generation attempts failed validation. Final failures:",
+        failedAttempts,
+      );
       return res.status(400).json({
-        error: "Content contains banned phrases",
-        issues: sanitized.issues,
+        error: "Failed to generate valid content after 3 attempts",
+        attempts: failedAttempts,
+        message:
+          "Each generated article contained banned phrases or failed validation. Please check your content safety rules.",
       });
     }
 
