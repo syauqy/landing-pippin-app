@@ -4,6 +4,7 @@ import { Navbar } from "@/components/layouts/navbar";
 import { Footer } from "@/components/layouts/footer";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { getPublishedPosts, getAllTags } from "@/lib/blog";
+import { consolidateTags } from "@/lib/tagConsolidation";
 import Link from "next/link";
 import { format } from "date-fns";
 import { SearchX } from "lucide-react";
@@ -40,7 +41,7 @@ export default function BlogIndexPage({ posts, tags }) {
         const matchesTag =
           selectedTag === null ||
           (post.frontmatter.tags &&
-            post.frontmatter.tags.includes(selectedTag));
+            consolidateTags(post.frontmatter.tags).includes(selectedTag));
 
         return matchesSearch && matchesTag;
       });
