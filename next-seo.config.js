@@ -3,21 +3,7 @@ export default {
   defaultTitle: "Pippin – Your Overthinking Journal",
   description:
     "A minimalist journaling space for when your thoughts feel loud. Write it out, step away, and come back calmer.",
-  canonical: "https://www.getpippin.app",
-  mobileAlternate: {
-    media: "only screen and (max-width: 640px)",
-    href: "https://www.getpippin.app",
-  },
-  languageAlternates: [
-    {
-      hrefLang: "en-US",
-      href: "https://www.getpippin.app",
-    },
-    {
-      hrefLang: "x-default",
-      href: "https://www.getpippin.app",
-    },
-  ],
+
   openGraph: {
     type: "website",
     locale: "en_US",
