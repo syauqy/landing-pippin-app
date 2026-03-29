@@ -40,7 +40,7 @@ export function Footer({ bg, showBadgeMarquee = false }) {
                 className="font-semibold text-slate-500 hover:text-blue-500 transition-colors"
                 href="https://www.syauqy.dev"
                 target="_blank"
-                rel="noopener noreferrer nofollow"
+                rel="noopener noreferrer"
               >
                 Syauqy
               </a>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { NextSeo } from "next-seo";
 import { Navbar } from "@/components/layouts/navbar";
 import { Footer } from "@/components/layouts/footer";
 import { Plus_Jakarta_Sans } from "next/font/google";
@@ -11,6 +12,12 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 export default function NotFoundPage() {
   return (
     <div className="min-h-screen flex flex-col bg-base-100 text-base-content">
+      <NextSeo
+        title="Page Not Found – Pippin"
+        description="The page you're looking for doesn't exist. Let us help you get back on track to a calmer mind."
+        canonical="https://www.getpippin.app/404"
+        noindex={true}
+      />
       <Navbar />
       <div className="flex flex-col items-center justify-center grow py-16 px-5">
         <div className="bg-white/80 rounded-3xl shadow-lg p-10 flex flex-col items-center max-w-md w-full">

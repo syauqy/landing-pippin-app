@@ -7,7 +7,7 @@ export default {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://www.getpippin.app",
+    // Note: url should be set per-page via NextSeo component, not here
     siteName: "Pippin",
     title: "Pippin – Your Overthinking Journal",
     description:

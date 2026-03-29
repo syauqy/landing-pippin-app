@@ -83,9 +83,47 @@ const nextConfig = {
               key: "Strict-Transport-Security",
               value: "max-age=31536000; includeSubDomains; preload",
             },
+            {
+              key: "Content-Security-Policy",
+              value:
+                "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://analytics.ahrefs.com https://cdn.posthog.com https://app.posthog.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https: wss:; frame-ancestors 'none';",
+            },
           ],
         },
-        // API-specific CORS headers
+        // Static content caching (1 year for immutable assets)
+        {
+          source:
+            "/(:path*\\.(?:jpg|jpeg|gif|png|webp|svg|ico|woff|woff2|ttf|eot))?",
+          headers: [
+            {
+              key: "Cache-Control",
+              value: "public, max-age=31536000, immutable",
+            },
+          ],
+        },
+        // HTML pages caching (revalidate daily, allow stale)
+        {
+          source: "/:path*\\.html",
+          headers: [
+            {
+              key: "Cache-Control",
+              value:
+                "public, max-age=86400, s-maxage=604800, stale-while-revalidate=604800",
+            },
+          ],
+        },
+        // Default caching for dynamic pages
+        {
+          source: "/((?!api).*)",
+          headers: [
+            {
+              key: "Cache-Control",
+              value:
+                "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
+            },
+          ],
+        },
+        // API-specific CORS headers and no-cache directive
         {
           source: "/api/:path*",
           headers: [
@@ -105,6 +143,11 @@ const nextConfig = {
             {
               key: "Access-Control-Max-Age",
               value: "3600",
+            },
+            {
+              key: "Cache-Control",
+              value:
+                "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
             },
           ],
         },

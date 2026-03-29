@@ -10,7 +10,6 @@ export default function Document() {
           content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
         />
         <meta name="theme-color" content="#FF6B35" />
-        <meta name="description" content="Pippin – Your Overthinking Journal" />
         <script
           src="https://analytics.ahrefs.com/analytics.js"
           data-key="17Qf8HVhOW6orqywwIiksg"
